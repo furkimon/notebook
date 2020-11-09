@@ -43,7 +43,7 @@ const Form = ({ selectedId, setSelectedId }) => {
                     </div>
                     <div className="form__row category">
                         <label>category</label>
-                        <input value={note.category} onChange={(e) => e.target.value.length ? setNote({ ...note, category: e.target.value }) : setNote({ ...note, category: ' ' })} type="text" rows="10" name="category" />
+                        <input id="input-category" value={note.category} onChange={(e) => e.target.value.length ? setNote({ ...note, category: e.target.value }) : setNote({ ...note, category: ' ' })} type="text" rows="10" name="category" />
                     </div>
                     <div className="form__row button">
                         <div className="form__button" onClick={() => onSubmit()}>save</div>

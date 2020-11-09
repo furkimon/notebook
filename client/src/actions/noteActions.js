@@ -1,6 +1,6 @@
 // import NoteModel from '../../../server/models/noteModel'
 import * as api from '../api/api.js'
-import { GETALL, CREATE, UPDATE, DELETE } from '../constants/actionTypes'
+import { GETALL, CREATE, UPDATE, DELETE, FILTER } from '../constants/actionTypes'
 
 export const getNotes = () => async (dispatch) => {
     try {
@@ -34,6 +34,15 @@ export const deleteNote = (id) => async (dispatch) => {
         await api.deleteNote(id)
         dispatch({ type: DELETE, payload: id })
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export const filterNotes = (item) => async (dispatch) => {
+    try{
+        const { data } = await api.filterNotes(item)
+        dispatch({type: FILTER, payload : data})
+    }catch(error){
         console.log(error)
     }
 }

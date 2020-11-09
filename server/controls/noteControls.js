@@ -12,6 +12,17 @@ export const getNotes = async (req, res) => {
     }
 }
 
+export const filterNotes = async (req, res) => {
+    try {
+        const { item : item } = req.params
+        const notes = await NoteModel.find()
+        var filteredNotes = notes.filter((note) => note.category.includes(item))
+        res.status(200).json(filteredNotes)
+    } catch (error) {
+        res.status(404).json({message : error})
+    }
+}
+
 export const createNote = async (req, res) => {
     try {
         const note = req.body

@@ -93,6 +93,7 @@
 }
 
 .note__category > h6 {
+    padding: 0 15px;
     display: inline;
     font-weight: 200;
     border-bottom: 1px dashed #f5f5f5;

@@ -30,6 +30,15 @@
     margin-top: 20px;
 }
 
+.form__row > input, textarea {
+    border-radius: 10px;
+    border: 1.5px solid var(--color1);
+}
+
+.form__row > input:focus, textarea:focus{
+    outline: none;
+ }
+
 .button{
     justify-content: center;
     cursor: pointer;
@@ -43,4 +52,13 @@
     border-radius: 30px;
     background-color: var(--color1);
     color: #f5f5f5
+}
+
+@keyframes highlight {
+    from{
+        background-color: rgb(251, 130, 130);
+    }
+    to{
+        background-color: white;
+    }
 }
