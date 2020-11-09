@@ -1,0 +1,14 @@
+.notes__container{
+    width: 100%;
+    height: 100%;
+}
+
+.notes__wrapper{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    width:300px;
+    height: max-content;
+    padding: 10px;
+    border-radius: 10px;
+}
