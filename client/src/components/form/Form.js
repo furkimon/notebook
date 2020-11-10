@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './Form.css'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getNotes, createNote, updateNote } from '../../actions/noteActions'
+import { createNote, updateNote } from '../../actions/noteActions'
 
 const Form = ({ selectedId, setSelectedId }) => {
     const [note, setNote] = useState({ title: null, content: null, category: [] })
@@ -11,8 +11,6 @@ const Form = ({ selectedId, setSelectedId }) => {
     const notes = useSelector(state => state.notes)
 
     var selectCategory = document.getElementById("select")
-    var categoryInput = document.getElementById("category-input")
-
 
     useEffect(() => {
         if (selectedNote) setNote(selectedNote)
@@ -25,12 +23,13 @@ const Form = ({ selectedId, setSelectedId }) => {
         } else {
             dispatch(createNote(note))
         }
-        console.log(note)
+
         clearFields()
         setSelectedId(null)
     }
 
     const clearFields = () => {
+        setSelectedId(null)
         setNote({ title: '', content: '', category: [] })
     }
 
@@ -43,10 +42,11 @@ const Form = ({ selectedId, setSelectedId }) => {
     return (
         <div className="form__container" id="form-container">
             <div className="form__wrapper">
+                <h1>{selectedNote ? 'Edit ' : 'Create '}Note</h1>
                 <div className="form">
                     <div className="form__row title">
                         <label>title</label>
-                        <input required value={note.title} onChange={(e) => setNote({ ...note, title: e.target.value })} type="text" name="title" />
+                        <input value={note.title} onChange={(e) => setNote({ ...note, title: e.target.value })} type="text" name="title" required/>
                     </div>
                     <div className="form__row content">
                         <label>note</label>
@@ -73,6 +73,7 @@ const Form = ({ selectedId, setSelectedId }) => {
                     </div>
                     <div className="form__row button">
                         <div className="form__button" onClick={() => onSubmit()}>save</div>
+                        <div className="form__button deleteBtn" onClick={() => clearFields()}>clear</div>
                     </div>
                 </div>
             </div>

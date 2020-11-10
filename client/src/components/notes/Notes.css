@@ -4,9 +4,17 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.loading{
+    position: absolute;
+    top: 20%;
+    display: flex;
 }
 
 .notes__wrapper{
+    position: relative;
     margin: 20px;
     display: flex;
     flex-direction: column;
@@ -18,8 +26,8 @@
 
 .notes__getter{
     position: absolute;
-    top: 30px;
-    left: 50px;
+    top: 12px;
+    right: 50px;
     transition: 1s;
     width: max-content;
     height: auto;
@@ -32,13 +40,14 @@
     visibility: hidden;
 }
 
-@keyframes slideUp {
-    from {
+@keyframes hop {
+    0%{
         transform: translateY(0);
-        visibility: hidden;
     }
-    to{
-        transform: translateY(-27px);
-        visibility: visible;
+    50%{
+        transform: translateY(-20px);
+    }
+    100%{
+        transform: translateY(0);
     }
 }
