@@ -16,7 +16,7 @@ const Home = () => {
     }, [dispatch])
 
     return (
-        <div className="home__container">
+        <div className="home__container" id="home-container">
             <div className="home__wrapper">
                 <Notes selectedId = {selectedId} setSelectedId={setSelectedId}/>
                 <Form selectedId = {selectedId} setSelectedId={setSelectedId}/>

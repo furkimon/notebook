@@ -1,4 +1,5 @@
 .notes__container{
+    position: relative;
     width: 100%;
     height: 100%;
     display: flex;
@@ -18,6 +19,7 @@
 .notes__getter{
     position: absolute;
     top: 30px;
+    left: 50px;
     transition: 1s;
     width: max-content;
     height: auto;

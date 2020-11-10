@@ -8,34 +8,33 @@ import { deleteNote, filterNotes } from '../../../actions/noteActions'
 
 const Note = ({ note, setSelectedId, setSelectedCategory }) => {
     const dispatch = useDispatch()
-
-    const handleEditButton = () => {
+    
+    const handleEditButton = (e) => {
         setSelectedId(note._id)
-        var formContainer = document.getElementById("form-container")
-        var inputCategory = document.getElementById("input-category")
-        formContainer.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-        })
-        inputCategory.focus()
-        inputCategory.style.animation = "highlight 3s"
+        if(e){
+            var inputCategory = document.getElementById("input-category")
+            inputCategory.focus()
+            inputCategory.style.animation = "highlight 3s"
+            setTimeout(() => {
+                inputCategory.style.animation = "none"
+            }, 3000);
+        }
 
-        setTimeout(() => {
-            inputCategory.style.animation = "none"
-        }, 3000);
+        window.scrollTo({top: 0, behavior: 'smooth'})
+
         setSelectedCategory(null)
     }
 
     const chooseCategory = (item) => {
-        var notesContainer = document.getElementById("notes-container")
-        notesContainer.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-        })
+        var homeContainer = document.getElementById("home-container")
+        var value = homeContainer.scrollHeight + 'px' 
+        homeContainer.style.height = value
+        
+        window.scrollTo({top: 0, behavior: 'smooth'})
+
         setSelectedCategory(item)
         dispatch(filterNotes(item))
     }
-
 
     return (
         <div className="note__container">
@@ -51,8 +50,8 @@ const Note = ({ note, setSelectedId, setSelectedCategory }) => {
                 <div className="note__button delete" onClick={() => dispatch(deleteNote(note._id))}>❌</div>
             </div>
             <div className="note__category">
-                {note.category[0] === ''
-                    ? <h6 onClick={() => handleEditButton()}>Add category</h6>
+                {!note.category
+                    ? <h6 onClick={(e) => handleEditButton(e)}>Add category</h6>
                     : note.category.map((item) => {
                         return <h6 onClick={() => chooseCategory(item)}>{item}</h6>
                     })

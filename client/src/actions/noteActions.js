@@ -1,4 +1,3 @@
-// import NoteModel from '../../../server/models/noteModel'
 import * as api from '../api/api.js'
 import { GETALL, CREATE, UPDATE, DELETE, FILTER } from '../constants/actionTypes'
 

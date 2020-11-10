@@ -24,13 +24,13 @@ export const filterNotes = async (req, res) => {
 }
 
 export const createNote = async (req, res) => {
+    const note = req.body
+    const newNote = new NoteModel(note)
     try {
-        const note = req.body
-        const newNote = new NoteModel(note)
         await newNote.save()
         res.status(201).json('Creation was successfull')
     } catch (error) {
-        res.status(404).json({ message: error })
+        res.status(409).json({ message: error })
     }
 }
 
