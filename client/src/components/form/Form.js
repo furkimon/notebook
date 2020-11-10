@@ -54,18 +54,15 @@ const Form = ({ selectedId, setSelectedId }) => {
                     </div>
                     <div className="form__row category">
                         <label>add category</label>
-
-                            <input id="category-input"
+                        <input id="category-input"
                             id="input-category" value={note.category}
                             type="text" rows="10" name="category"
-                            onChange={(e) => selectCategory.value === 'choose category'
-                                ? setNote({ ...note, category: [e.target.value] })
-                                : setNote({ ...note, category: [] })}
-                                />
+                            onChange={(e) => selectCategory.value === 'choose category' ? setNote({ ...note, category: [e.target.value] }) : null}
+                        />
                     </div>
                     <div className="form__row category2">
                         <label>choose category</label>
-                        <select id="select" onChange={(e)=>  setNote({...note, category : e.target.value!=='choose category' ? e.target.value : null})}>
+                        <select id="select" onChange={(e) => setNote({ ...note, category: e.target.value !== 'choose category' ? e.target.value : null })}>
                             {getCategories().map((category) => {
                                 return <option value={category}>{category}</option>
                             })}
