@@ -57,7 +57,10 @@ const Form = ({ selectedId, setSelectedId }) => {
                         <input id="category-input"
                             id="input-category" value={note.category}
                             type="text" rows="10" name="category"
-                            onChange={(e) => selectCategory.value === 'choose category' ? setNote({ ...note, category: [e.target.value] }) : null}
+                            onChange={(e) =>
+                                selectCategory.value === 'choose category'
+                                    ? setNote({ ...note, category: [e.target.value] })
+                                    : null}
                         />
                     </div>
                     <div className="form__row category2">

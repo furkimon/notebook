@@ -28,7 +28,7 @@ export const createNote = async (req, res) => {
     const newNote = new NoteModel(note)
     try {
         await newNote.save()
-        res.status(201).json('Creation was successfull')
+        res.status(201).json(newNote)
     } catch (error) {
         res.status(409).json({ message: error })
     }

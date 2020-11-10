@@ -50,7 +50,7 @@ const Note = ({ note, setSelectedId, setSelectedCategory }) => {
                 <div className="note__button delete" onClick={() => dispatch(deleteNote(note._id))}>❌</div>
             </div>
             <div className="note__category">
-                {!note.category
+                {!note.category.length
                     ? <h6 onClick={(e) => handleEditButton(e)}>Add category</h6>
                     : note.category.map((item) => {
                         return <h6 onClick={() => chooseCategory(item)}>{item}</h6>
