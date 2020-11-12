@@ -39,11 +39,12 @@ const Form = ({ selectedId, setSelectedId }) => {
         setNote({ title: '', content: '', category: [] })
         setHoldString({})
 
-        for(let i = 0; i < categoryCount ; i++){
-            document.getElementById(`input-category${i}`).placeholder = ""
-            console.log(document.getElementById(`input-category${i}`).placeholder)
+        for(let i = 0; i < categoryCount.length ; i++){
+            document.getElementById(`input-category${i}`).value = ""
+            console.log(document.getElementById(`input-category${i}`).value)
         }
         setCategoryCount(["herro"])
+        
     }
 
     const createCategorySection = () => {

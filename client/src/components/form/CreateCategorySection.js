@@ -31,9 +31,6 @@ const CreateCategorySection = ({ i, note, setNote, holdString, setHoldString }) 
         return allCategories
     }
 
-
-    console.log(holdString)
-
     return (
         <div className="category">
             <div className="form__row">
