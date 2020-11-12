@@ -12,7 +12,7 @@ const Note = ({ note, setSelectedId, setSelectedCategory }) => {
     const handleEditButton = (e) => {
         setSelectedId(note._id)
         if(e){
-            var inputCategory = document.getElementById("input-category")
+            var inputCategory = document.getElementById("input-category0")
             inputCategory.focus()
             inputCategory.style.animation = "highlight 3s"
             setTimeout(() => {
