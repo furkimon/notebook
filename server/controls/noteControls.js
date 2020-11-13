@@ -4,7 +4,6 @@ import NoteModel from '../models/noteModel.js'
 export const getNotes = async (req, res) => {
     try {
         const notes = await NoteModel.find()
-        console.log(notes)
         res.status(200).json(notes)
 
     } catch (error) {

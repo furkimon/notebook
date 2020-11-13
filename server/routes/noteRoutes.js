@@ -1,13 +1,14 @@
 import express from 'express'
+import { auth } from '../middleware/authMiddleware.js'
 
 import { getNotes, createNote, updateNote, deleteNote, filterNotes } from '../controls/noteControls.js'
 
 const router = express.Router()
 
-router.get('/', getNotes)
-router.post('/', createNote)
-router.post('/:id', updateNote)
-router.delete('/:id', deleteNote)
-router.get('/category/:item', filterNotes)
+router.get('/', auth, getNotes)
+router.post('/', auth,  createNote)
+router.post('/:id', auth, updateNote)
+router.delete('/:id', auth, deleteNote)
+router.get('/category/:item', auth, filterNotes)
 
 export default router

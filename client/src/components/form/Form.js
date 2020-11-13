@@ -41,7 +41,6 @@ const Form = ({ selectedId, setSelectedId }) => {
 
         for(let i = 0; i < categoryCount.length ; i++){
             document.getElementById(`input-category${i}`).value = ""
-            console.log(document.getElementById(`input-category${i}`).value)
         }
         setCategoryCount(["herro"])
         
