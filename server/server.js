@@ -3,12 +3,12 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
-
 import noteRoutes from './routes/noteRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 
 const app = express()
+
 dotenv.config()
 
 app.use(bodyParser.json({ limit : "30mb", extended: true }))
@@ -21,7 +21,7 @@ app.use('/auth', authRoutes)
 
 const PORT = process.env.PORT || 5000
 
-mongoose.connect(process.env.CONNECTION_URL, {
+mongoose.connect(process.env.CONNECTION_URL, {  //
     useNewUrlParser : true, 
     useUnifiedTopology : true,
     useCreateIndex : true

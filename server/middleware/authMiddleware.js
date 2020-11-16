@@ -4,7 +4,7 @@ export const auth = (req, res, next) => {  //pass in 3 things for middleware
     const token = req.header('x-auth-token')
 
     if (!token) { // check for token
-        res.status(401).json({ message: 'No token, authorization denied' })
+        return res.status(401).json({ message: 'No token, authorization denied' })
     }
 
     try {

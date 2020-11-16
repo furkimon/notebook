@@ -1,4 +1,4 @@
-import { GETALL, CREATE, UPDATE, DELETE, FILTER } from '../constants/actionTypes'
+import { GETALL, CREATE, UPDATE, DELETE, FILTER, CLEAN_NOTES } from '../constants/actionTypes'
 
 
 export default (notes = [], action) => {
@@ -13,6 +13,8 @@ export default (notes = [], action) => {
             return notes.filter((note) => note._id !== action.payload)
         case FILTER:
             return action.payload
+        case CLEAN_NOTES:
+            return []
         default:
             return notes;
     }

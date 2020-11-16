@@ -1,9 +1,22 @@
 import axios from 'axios'
 
-const url = 'http://localhost:5000/notes'
+const urlNotes = 'http://localhost:5000/notes'
 
-export const getNotes = () => axios.get(url)
-export const filterNotes = (item) => axios.get(`${url}/category/${item}`)
-export const createNotes = (note) => axios.post(url, note)
-export const updateNotes = (id, note) => axios.post(`${url}/${id}`, note)
-export const deleteNote = (id) => axios.delete(`${url}/${id}`)
+export const getNotes = (config) => axios.get(urlNotes, config)
+export const filterNotes = (item, config) => axios.get(`${urlNotes}/category/${item}`, config)
+export const createNotes = (note, config) => axios.post(urlNotes, note, config)
+export const updateNotes = (id, note, config) => axios.post(`${urlNotes}/${id}`, note, config)
+export const deleteNote = (id, config) => axios.delete(`${urlNotes}/${id}`, config)
+
+
+const urlAuth = 'http://localhost:5000/auth'
+//get tokn from loaclStorage
+
+export const loadUser = (config) => axios.get(`${urlAuth}/user`, config)
+export const login = (body, config) => axios.post(urlAuth, body, config)
+
+
+
+const urlUsers = 'http://localhost:5000/users'
+
+export const register = (body, config) => axios.post(urlUsers, body, config)

@@ -2,17 +2,17 @@ import UserModel from '../models/userModel.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-// export const getUsers = async (req, res) => {
-//     try {
-//         const users = await UserModel.find()
-//         res.status(200).json(users)
-//     } catch (error) {
-//         res.status(404).json({message : error})
-//     }
-// }
+export const getUsers = async (req, res) => {
+    try {
+        const users = await UserModel.find()
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(404).json({message : error})
+    }
+}
 
 
-export const createUser = async (req, res) => {
+export const register = async (req, res) => {
     const { name, email, password} = req.body
 
     if(!name || !email || !password){

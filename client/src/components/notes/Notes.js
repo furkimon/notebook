@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Notes.css'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getNotes } from '../../actions/noteActions'
 
 import Note from './note/Note'
@@ -9,6 +8,7 @@ import Note from './note/Note'
 const Notes = ({ selectedId, setSelectedId }) => {
     const dispatch = useDispatch()
     const notes = useSelector((state) => state.notes)
+    const {isAuthenticated, isLoading} = useSelector((state) => state.auth)
     const [selectedCategory, setSelectedCategory] = useState(null)
     var notesGetter = document.getElementById("notes-getter")
 
@@ -18,12 +18,16 @@ const Notes = ({ selectedId, setSelectedId }) => {
     var loadTimer2
 
     useEffect(() => {
+        dispatch(getNotes())
+    }, [dispatch])
+
+    useEffect(() => {
         if (selectedCategory !== null) {
-            notesGetter.style.transform = 'translateY(-27px)'//'slideUp 1s ease-in forwards'
+            notesGetter.style.transform = 'translateY(-27px)'
             notesGetter.style.visibility = 'visible'
         }
-
-        if (!notes.length) {
+        console.log(notes.length)
+        if (isLoading && notes.length !== 0 ) {
             runAnimation()
         } else {
             document.getElementById('loading').style.display = "none"
@@ -34,6 +38,7 @@ const Notes = ({ selectedId, setSelectedId }) => {
 
     }, [selectedCategory, notes.length])
 
+    console.log(notes)
 
     const showAll = () => {
         dispatch(getNotes())
@@ -44,7 +49,7 @@ const Notes = ({ selectedId, setSelectedId }) => {
 
 
     const animateLoading = () => {
-        for (let i = 0; i < loading.length; i++) {
+        if(isAuthenticated){for (let i = 0; i < loading.length; i++) {
             loadTimer1 = setTimeout(() => {
                 document.getElementById(`member${i}`).style.animation = "hop 0.6s ease-in-out"
             }, (i + 1) * 100)
@@ -52,7 +57,7 @@ const Notes = ({ selectedId, setSelectedId }) => {
             loadTimer2 = setTimeout(() => {
                 document.getElementById(`member${i}`).style.animation = "none"
             }, (i + 1) * 100 + 600)
-        }
+        }}
     }
 
     const runAnimation = () => {
@@ -61,7 +66,6 @@ const Notes = ({ selectedId, setSelectedId }) => {
             animateLoading()
         }, 1000)
     }
-
 
     return (
         <div className="notes__container" id="notes-container">
