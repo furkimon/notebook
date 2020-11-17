@@ -26,9 +26,9 @@ const Note = ({ note, setSelectedId, setSelectedCategory }) => {
     }
 
     const chooseCategory = (item) => {
-        var homeContainer = document.getElementById("home-container")
-        var value = homeContainer.scrollHeight + 'px' 
-        homeContainer.style.height = value
+        var profileContainer = document.getElementById("profile-container")
+        var value = profileContainer.scrollHeight + 'px' 
+        profileContainer.style.height = value
         
         window.scrollTo({top: 0, behavior: 'smooth'})
 

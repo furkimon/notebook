@@ -10,6 +10,10 @@
     background-color: var(--color1);
 }
 
+.navlink{
+    text-decoration: none;
+}
+
 .list__item {
     color: white;
     display: flex;

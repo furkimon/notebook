@@ -1,13 +1,17 @@
 import React from 'react'
 import './Registration.css'
 import { useDispatch, useSelector } from 'react-redux'
+import {useHistory} from 'react-router-dom'
+
 import { login, register } from '../../actions/authActions'
 import { REGISTER_FAIL, LOGIN_FAIL } from '../../constants/actionTypes'
 
 
 const AuthForm = ({ holdUser, setHoldUser, isSignup }) => {
     const dispatch = useDispatch()
+    var history = useHistory()
     const { id, message } = useSelector(state => state.error)
+    const {isAuthenticated} = useSelector(state => state.auth)
 
 
     const onSubmit = (holdUser) => {
@@ -23,6 +27,8 @@ const AuthForm = ({ holdUser, setHoldUser, isSignup }) => {
         setHoldUser({ name: '', email: '', password: '' })
     }
 
+    if(isAuthenticated) history.push("/profile")
+    
     return (
         <div className="auth__container">
             <div className="auth__wrapper">

@@ -1,5 +1,6 @@
 export  { default as Header} from './header/Header'
 export  { default as Home} from './home/Home'
+export  { default as Profile} from './profile/Profile'
 export  { default as Footer} from './footer/Footer'
 export  { default as Notes} from './notes/Notes'
 export  { default as Form} from './form/Form'

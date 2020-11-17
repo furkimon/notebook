@@ -8,7 +8,7 @@ import Note from './note/Note'
 const Notes = ({ selectedId, setSelectedId }) => {
     const dispatch = useDispatch()
     const notes = useSelector((state) => state.notes)
-    const {isAuthenticated, isLoading} = useSelector((state) => state.auth)
+    const { isAuthenticated, isLoading } = useSelector((state) => state.auth)
     const [selectedCategory, setSelectedCategory] = useState(null)
     var notesGetter = document.getElementById("notes-getter")
 
@@ -26,8 +26,10 @@ const Notes = ({ selectedId, setSelectedId }) => {
             notesGetter.style.transform = 'translateY(-27px)'
             notesGetter.style.visibility = 'visible'
         }
-        console.log(notes.length)
-        if (isLoading && notes.length !== 0 ) {
+    }, [selectedCategory])
+
+    useEffect(() => {
+        if (isLoading && notes.length) {
             runAnimation()
         } else {
             document.getElementById('loading').style.display = "none"
@@ -36,9 +38,7 @@ const Notes = ({ selectedId, setSelectedId }) => {
             clearInterval(loadAnimation)
         }
 
-    }, [selectedCategory, notes.length])
-
-    console.log(notes)
+    }, [notes.length, isLoading])
 
     const showAll = () => {
         dispatch(getNotes())
@@ -47,9 +47,8 @@ const Notes = ({ selectedId, setSelectedId }) => {
         notesGetter.style.visibility = 'hidden'
     }
 
-
     const animateLoading = () => {
-        if(isAuthenticated){for (let i = 0; i < loading.length; i++) {
+        for (let i = 0; i < loading.length; i++) {
             loadTimer1 = setTimeout(() => {
                 document.getElementById(`member${i}`).style.animation = "hop 0.6s ease-in-out"
             }, (i + 1) * 100)
@@ -57,7 +56,7 @@ const Notes = ({ selectedId, setSelectedId }) => {
             loadTimer2 = setTimeout(() => {
                 document.getElementById(`member${i}`).style.animation = "none"
             }, (i + 1) * 100 + 600)
-        }}
+        }
     }
 
     const runAnimation = () => {

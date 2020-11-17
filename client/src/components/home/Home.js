@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './Home.css'
 
-import {Notes, Form} from '../../components'
-
-
 const Home = () => {
-    const[selectedId, setSelectedId] = useState(null)
-
-
     return (
-        <div className="home__container" id="home-container">
-            <div className="home__wrapper">
-                <Notes selectedId = {selectedId} setSelectedId={setSelectedId}/>
-                <Form selectedId = {selectedId} setSelectedId={setSelectedId}/>
+        <div className="home__container">
+            <div className="home__left home__section">
+                <p>Sign in to continue your work on the best organizer.</p>
+            </div>
+            <div className="home__right home__section">
+                <p>Sign up now for free to the best note organizer.</p>
+            </div>
+            <div className="home__center">
+                <div className="home__center__left home__section">
+                    
+                </div>
+                <div className="home__center__right home__section">
+                    
+                </div>
             </div>
         </div>
     )
