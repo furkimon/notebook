@@ -10,7 +10,7 @@ export const loadUser = async (req, res) => { // TO SEE USER
 
 export const login = async (req, res) => {  // for users LOGIN
     const { email, password } = req.body
-
+    console.log(req.body)
     if (!email || !password) {
         return res.status(400).json({ message: 'enter all fields' })
     }

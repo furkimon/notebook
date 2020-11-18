@@ -6,12 +6,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createNote, updateNote } from '../../actions/noteActions'
 
 const Form = ({ selectedId, setSelectedId }) => {
-    const [holdString, setHoldString] = useState({})
-    const [note, setNote] = useState({ title: null, content: null, category: [] })
-    const [categoryCount, setCategoryCount] = useState(['herro'])
-    const CATEGORY_LIMIT = 5
+    
     const dispatch = useDispatch()
+    const { user } = useSelector(state => state.auth)
     const selectedNote = useSelector(state => state.notes.find((note) => note._id === selectedId))
+    
+    const [holdString, setHoldString] = useState({})
+    const [note, setNote] = useState({ title: null, content: null, category: [],  createdBy: null}) //, createdBy: null , createdBy: user ? JSON.parse(user).id : null 
+    const [userID, setUserID] = useState('')
+    const [categoryCount, setCategoryCount] = useState(['herro'])
+    
+    const CATEGORY_LIMIT = 5
 
     var categoryPlus = document.getElementById("category-plus")
 
@@ -23,27 +28,40 @@ const Form = ({ selectedId, setSelectedId }) => {
             categoryPlus.style.cursor = "not-allowed"
         }
     }, [selectedNote, categoryCount])
-    
+
+    useEffect(() => {
+        if (typeof(user) === 'string'){  // JSON
+            setUserID(JSON.parse(user).id)
+            setNote({ ...note, createdBy: JSON.parse(user).id})
+        }else if(typeof(user) === 'object' && user) {  // Object
+            setUserID(user['id'])
+            setNote({ ...note, createdBy: user['id']})
+        }else if(!user){  // after logout, object NULL
+            console.log('user is null')
+        }
+    }, [user])
+
     const onSubmit = () => {
+        console.log(selectedId + ' ' + note + ' ' + userID)
         if (selectedId) {
-            dispatch(updateNote(selectedId, note))
+            dispatch(updateNote(selectedId, note)) // Object.entries(note)
         } else {
-            dispatch(createNote(note))
+            dispatch(createNote(note, userID))
         }
 
-        clearFields()        
+        clearFields()
     }
 
     const clearFields = () => {
         setSelectedId(null)
-        setNote({ title: '', content: '', category: [] })
+        setNote({ title: '', content: '', category: [], createdBy: note.createdBy })
         setHoldString({})
 
-        for(let i = 0; i < categoryCount.length ; i++){
+        for (let i = 0; i < categoryCount.length; i++) {
             document.getElementById(`input-category${i}`).value = ""
         }
         setCategoryCount(["herro"])
-        
+
     }
 
     const createCategorySection = () => {
@@ -82,7 +100,7 @@ const Form = ({ selectedId, setSelectedId }) => {
                         <div className="categories">
                             {createCategorySection()}
                         </div>
-                        <div className="category__plus form__button" id="category-plus" onClick={() => categoryCount.length < 5 ? handleCategoryPlus(categoryCount.length) : null }>{categoryCount.length === 5 ? 'maximum' : '+'}</div>
+                        <div className="category__plus form__button" id="category-plus" onClick={() => categoryCount.length < 5 ? handleCategoryPlus(categoryCount.length) : null}>{categoryCount.length === 5 ? 'maximum' : '+'}</div>
                     </div>
                     <div className="form__row button">
                         <div className="form__button" onClick={() => onSubmit()}>save</div>

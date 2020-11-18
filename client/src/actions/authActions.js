@@ -64,7 +64,7 @@ export const register = (user) => async (dispatch) => {
 export const login = (user) => async (dispatch) => {
     try {
         const config = { headers: { 'Content-Type': 'application/json'} }
-        const {email, password} = user
+        const {email, password} = user  // user object, body json
         const body = JSON.stringify({email, password})
 
         const {data} = await api.login(body, config)

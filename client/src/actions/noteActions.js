@@ -11,9 +11,21 @@ export const getNotes = () => async (dispatch, getState) => {
     }
 }
 
-export const createNote = (note) => async (dispatch, getState) => {
+export const getNotesForUser = (id) => async (dispatch, getState) => {
     try {
-        const { data } = await api.createNotes(note, tokenConfig(getState))
+        const { data } = await api.getNotesForUser(tokenConfig(getState), id)
+        dispatch({ type: GETALL, payload: data })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const createNote = (note, id) => async (dispatch, getState) => {
+    console.log(note)
+    console.log(id)
+    try {
+        const { data } = await api.createNotes(note, id, tokenConfig(getState))
+        console.log(data)
         dispatch({ type: CREATE, payload: data })
     } catch (error) {
         console.log(error)

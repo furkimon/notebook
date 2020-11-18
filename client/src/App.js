@@ -18,11 +18,11 @@ const App = () => {
     <Router>
       <div className="App">
         <Header />
-          <Route path="/">
+          {/* <Route path="/">
             {isAuthenticated
               ? <Redirect to="/profile" />
               : <Redirect to="/" />}
-          </Route>
+          </Route> */}
         <Switch>
           <Route path="/registration">
             <Registration />

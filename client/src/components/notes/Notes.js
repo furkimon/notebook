@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import './Notes.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { getNotes } from '../../actions/noteActions'
+import { getNotesForUser } from '../../actions/noteActions'
 
 import Note from './note/Note'
 
 const Notes = ({ selectedId, setSelectedId }) => {
     const dispatch = useDispatch()
     const notes = useSelector((state) => state.notes)
-    const { isAuthenticated, isLoading } = useSelector((state) => state.auth)
+    const { isLoading, user } = useSelector((state) => state.auth)
     const [selectedCategory, setSelectedCategory] = useState(null)
+
     var notesGetter = document.getElementById("notes-getter")
 
     var loading = 'loading...'.split('')
@@ -18,17 +19,20 @@ const Notes = ({ selectedId, setSelectedId }) => {
     var loadTimer2
 
     useEffect(() => {
-        dispatch(getNotes())
-    }, [dispatch])
+        // dispatch(getNotes())
+        if (user !== null) {
+            dispatch(getNotesForUser(user))
+        }
+    }, [user])
 
-    useEffect(() => {
+    useEffect(() => {  // for show all button after category choice
         if (selectedCategory !== null) {
             notesGetter.style.transform = 'translateY(-27px)'
             notesGetter.style.visibility = 'visible'
         }
     }, [selectedCategory])
 
-    useEffect(() => {
+    useEffect(() => {  // for loading animation
         if (isLoading && notes.length) {
             runAnimation()
         } else {
@@ -41,7 +45,8 @@ const Notes = ({ selectedId, setSelectedId }) => {
     }, [notes.length, isLoading])
 
     const showAll = () => {
-        dispatch(getNotes())
+        // dispatch(getNotes())
+        dispatch(getNotesForUser(JSON.parse(user).id))
         setSelectedCategory(null)
         notesGetter.style.transform = 'translateY(0)'
         notesGetter.style.visibility = 'hidden'
