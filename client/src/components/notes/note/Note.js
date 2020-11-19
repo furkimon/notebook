@@ -6,12 +6,12 @@ import { useDispatch } from 'react-redux'
 import { deleteNote, filterNotes } from '../../../actions/noteActions'
 
 
-const Note = ({ note, setSelectedId, setSelectedCategory, userID }) => {
+const Note = ({ user, userID, userName, isProfile, note, setSelectedId, setSelectedCategory }) => {
     const dispatch = useDispatch()
 
     const handleEditButton = (e) => {
         setSelectedId(note._id)
-        if(e){
+        if (e) {
             var inputCategory = document.getElementById("input-category0")
             inputCategory.focus()
             inputCategory.style.animation = "highlight 3s"
@@ -20,20 +20,23 @@ const Note = ({ note, setSelectedId, setSelectedCategory, userID }) => {
             }, 3000);
         }
 
-        window.scrollTo({top: 0, behavior: 'smooth'})
+        window.scrollTo({ top: 0, behavior: 'smooth' })
 
         setSelectedCategory(null)
     }
 
     const chooseCategory = (item) => {
-        var profileContainer = document.getElementById("profile-container")  // to keep same height in order to not to lose scrolling effect to top
-        var value = profileContainer.scrollHeight + 'px' 
-        profileContainer.style.height = value
-        
-        window.scrollTo({top: 0, behavior: 'smooth'})
+        if (isProfile) {      // to keep same height in order to not to lose scrolling effect to top
+            var profileContainer = document.getElementById("profile-container")
+            profileContainer.style.height = profileContainer.scrollHeight + 'px'
+        } else {
+            var homeContainer = document.getElementById("home-container")
+            homeContainer.style.height = homeContainer.scrollHeight + 'px'
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' })
         setSelectedCategory(item)
-        console.log(userID)
-        dispatch(filterNotes(userID, item ))
+        dispatch(filterNotes(userID, item))
     }
 
     return (
@@ -46,6 +49,7 @@ const Note = ({ note, setSelectedId, setSelectedCategory, userID }) => {
                 <div className="note__down">
                     <h5>{note.content}</h5>
                 </div>
+                <div className="note__createdBy">{userName}</div>
                 <div className="note__button edit" onClick={() => handleEditButton()}>⚙️</div>
                 <div className="note__button delete" onClick={() => dispatch(deleteNote(note._id))}>❌</div>
             </div>

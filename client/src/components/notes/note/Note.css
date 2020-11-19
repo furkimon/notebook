@@ -16,7 +16,11 @@
     margin-bottom: 10px;
     border: 5px solid var(--color4);
     box-sizing: border-box;
+}
 
+.note__createdBy{
+    position: absolute;
+    left: 0;
 }
 
 .note__up{

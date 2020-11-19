@@ -18,6 +18,10 @@ const userSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     }
+    // followers : {
+    //     type: String,
+    //     unique: true
+    // }
 
 })
 

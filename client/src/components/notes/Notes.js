@@ -5,35 +5,34 @@ import { getNotesForUser } from '../../actions/noteActions'
 
 import Note from './note/Note'
 
-const Notes = ({ selectedId, setSelectedId }) => {
+const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading }) => {
     const dispatch = useDispatch()
-    const notes = useSelector((state) => state.notes)
-    const { isLoading, user } = useSelector((state) => state.auth)
-
     const [userID, setUserID] = useState('')
+    const [userName, setUserName] = useState('')
     const [selectedCategory, setSelectedCategory] = useState(null)  //for show all button
 
-    var notesGetter = document.getElementById("notes-getter")
+    var notesGetter = document.getElementById("notes-getter") // show all button
 
     var loading = 'loading...'.split('')
     var loadAnimation
     var loadTimer1
     var loadTimer2
     
-    useEffect(() => {
-        if (typeof(user) === 'string'){  // JSON
+    useEffect(() => {   // get userID based on user type, JSON or object
+        if (typeof (user) === 'string') {  // JSON
             setUserID(JSON.parse(user).id)
-        }else if(typeof(user) === 'object' && user) {  // Object
+            setUserName(JSON.parse(user).name)
+        } else if (typeof (user) === 'object' && user) {  // Object
             setUserID(user['id'])
-        }else if(!user){  // after logout, object NULL
+            setUserName(user['name'])
+        } else if (!user) {  // after logout, object NULL
             console.log('user is null')
         }
-    }, [user, userID])
+    }, [user, userID, userName])
 
-    useEffect(() => {
+    useEffect(() => {  //bring all the notes for the user
         // dispatch(getNotes())
         if (user !== null && userID) {
-            console.log(userID)
             dispatch(getNotesForUser(userID))
         }
     }, [user,  userID])
@@ -96,6 +95,7 @@ const Notes = ({ selectedId, setSelectedId }) => {
                 {notes.map((note) => {
                     return (
                         <Note
+                            isProfile={isProfile}
                             key={note.id}
                             selectedId={selectedId}
                             setSelectedId={setSelectedId}

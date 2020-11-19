@@ -1,11 +1,10 @@
 .home__container{
     position: relative;
     display: flex;
-    width: 100vw;
+    width: 100%;
     height: calc(100vh - 50px);
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 }
 
 .home__section{
@@ -15,11 +14,17 @@
 }
 
 .home__left{
+    display: flex;
+    flex-direction: column;
     background-color: var(--color2);
 }
 
 .home__right{
     background-color: var(--color3);
+}
+
+.home__left > h3 {
+    align-self: center;
 }
 
 .home__left > p{
