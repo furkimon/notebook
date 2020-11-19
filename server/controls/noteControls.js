@@ -1,19 +1,6 @@
 import mongoose from 'mongoose'
 import NoteModel from '../models/noteModel.js'
 
-export const getNotesForUser = async (req, res) => {
-    try {
-        const {userID : userID} = req.params
-        const notes = await NoteModel.find()
-        const visibleNotes = notes.filter((note) => note.createdBy !== userID)
-        res.status(200).json(visibleNotes)
-        console.log(visibleNotes)
-
-    } catch (error) {
-        res.status(404).json({ message: error })
-    }
-}
-
 export const getNotes = async (req, res) => {
     try {
         const notes = await NoteModel.find()
@@ -24,11 +11,25 @@ export const getNotes = async (req, res) => {
     }
 }
 
+export const getNotesForUser = async (req, res) => {
+    try {
+        const {userID : userID} = req.params
+
+        const notes = await NoteModel.find()
+        const visibleNotes = notes.filter((note) => note.createdBy === userID)
+
+        res.status(200).json(visibleNotes)
+    } catch (error) {
+        res.status(404).json({ message: error })
+    }
+}
+
 export const filterNotes = async (req, res) => {
     try {
-        const { item : item } = req.params
-        const notes = await NoteModel.find()
-        var filteredNotes = notes.filter((note) => note.category.includes(item))
+        const { userID, item } = req.params
+        const notes = await NoteModel.find()   
+
+        var filteredNotes = notes.filter((note) => note.category.includes(item) && note.createdBy === userID )
         res.status(200).json(filteredNotes)
     } catch (error) {
         res.status(404).json({message : error})

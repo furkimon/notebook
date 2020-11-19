@@ -6,9 +6,9 @@ import { useDispatch } from 'react-redux'
 import { deleteNote, filterNotes } from '../../../actions/noteActions'
 
 
-const Note = ({ note, setSelectedId, setSelectedCategory }) => {
+const Note = ({ note, setSelectedId, setSelectedCategory, userID }) => {
     const dispatch = useDispatch()
-    
+
     const handleEditButton = (e) => {
         setSelectedId(note._id)
         if(e){
@@ -26,14 +26,14 @@ const Note = ({ note, setSelectedId, setSelectedCategory }) => {
     }
 
     const chooseCategory = (item) => {
-        var profileContainer = document.getElementById("profile-container")
+        var profileContainer = document.getElementById("profile-container")  // to keep same height in order to not to lose scrolling effect to top
         var value = profileContainer.scrollHeight + 'px' 
         profileContainer.style.height = value
         
         window.scrollTo({top: 0, behavior: 'smooth'})
-
         setSelectedCategory(item)
-        dispatch(filterNotes(item))
+        console.log(userID)
+        dispatch(filterNotes(userID, item ))
     }
 
     return (

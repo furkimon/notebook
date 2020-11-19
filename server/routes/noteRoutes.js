@@ -6,10 +6,10 @@ import { getNotes, getNotesForUser, createNote, updateNote, deleteNote, filterNo
 const router = express.Router()
 
 router.get('/', auth, getNotes)
-router.get('/:user', auth, getNotesForUser)
+router.get('/createdBy/:userID', auth, getNotesForUser)
 router.post('/', auth,  createNote)
 router.post('/:id', auth, updateNote)
 router.delete('/:id', auth, deleteNote)
-router.get('/category/:item', auth, filterNotes)
+router.get('/createdBy/:userID/category/:item', auth, filterNotes)
 
 export default router

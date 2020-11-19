@@ -9,7 +9,9 @@ const Notes = ({ selectedId, setSelectedId }) => {
     const dispatch = useDispatch()
     const notes = useSelector((state) => state.notes)
     const { isLoading, user } = useSelector((state) => state.auth)
-    const [selectedCategory, setSelectedCategory] = useState(null)
+
+    const [userID, setUserID] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState(null)  //for show all button
 
     var notesGetter = document.getElementById("notes-getter")
 
@@ -17,13 +19,24 @@ const Notes = ({ selectedId, setSelectedId }) => {
     var loadAnimation
     var loadTimer1
     var loadTimer2
+    
+    useEffect(() => {
+        if (typeof(user) === 'string'){  // JSON
+            setUserID(JSON.parse(user).id)
+        }else if(typeof(user) === 'object' && user) {  // Object
+            setUserID(user['id'])
+        }else if(!user){  // after logout, object NULL
+            console.log('user is null')
+        }
+    }, [user, userID])
 
     useEffect(() => {
         // dispatch(getNotes())
-        if (user !== null) {
-            dispatch(getNotesForUser(user))
+        if (user !== null && userID) {
+            console.log(userID)
+            dispatch(getNotesForUser(userID))
         }
-    }, [user])
+    }, [user,  userID])
 
     useEffect(() => {  // for show all button after category choice
         if (selectedCategory !== null) {
@@ -46,13 +59,13 @@ const Notes = ({ selectedId, setSelectedId }) => {
 
     const showAll = () => {
         // dispatch(getNotes())
-        dispatch(getNotesForUser(JSON.parse(user).id))
+        dispatch(getNotesForUser(userID))
         setSelectedCategory(null)
         notesGetter.style.transform = 'translateY(0)'
         notesGetter.style.visibility = 'hidden'
     }
 
-    const animateLoading = () => {
+    const animateLoading = () => {  // loading animation
         for (let i = 0; i < loading.length; i++) {
             loadTimer1 = setTimeout(() => {
                 document.getElementById(`member${i}`).style.animation = "hop 0.6s ease-in-out"
@@ -64,7 +77,7 @@ const Notes = ({ selectedId, setSelectedId }) => {
         }
     }
 
-    const runAnimation = () => {
+    const runAnimation = () => {  // "animateLoading" runs right away and with interval afterwards
         animateLoading()
         loadAnimation = setInterval(() => {
             animateLoading()
@@ -88,6 +101,7 @@ const Notes = ({ selectedId, setSelectedId }) => {
                             setSelectedId={setSelectedId}
                             note={note}
                             setSelectedCategory={setSelectedCategory}
+                            userID={userID}
                         />
                     )
                 })

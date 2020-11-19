@@ -11,11 +11,22 @@ export const getNotes = () => async (dispatch, getState) => {
     }
 }
 
-export const getNotesForUser = (id) => async (dispatch, getState) => {
+export const getNotesForUser = (userID) => async (dispatch, getState) => {
     try {
-        const { data } = await api.getNotesForUser(tokenConfig(getState), id)
+        const { data } = await api.getNotesForUser(tokenConfig(getState), userID)
         dispatch({ type: GETALL, payload: data })
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export const filterNotes = (userID, item) => async (dispatch, getState) => {
+    try{
+        console.log(userID + ' ' + item)
+        const { data } = await api.filterNotes(tokenConfig(getState), userID, item )
+        console.log(data)  
+        dispatch({type: FILTER, payload : data})
+    }catch(error){
         console.log(error)
     }
 }
@@ -50,14 +61,7 @@ export const deleteNote = (id) => async (dispatch, getState) => {
     }
 }
 
-export const filterNotes = (item) => async (dispatch, getState) => {
-    try{
-        const { data } = await api.filterNotes(item, tokenConfig(getState))
-        dispatch({type: FILTER, payload : data})
-    }catch(error){
-        console.log(error)
-    }
-}
+
 
 export const cleanNotes = () => async (dispatch) => {
     dispatch({type: CLEAN_NOTES})
