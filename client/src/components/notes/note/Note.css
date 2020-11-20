@@ -21,6 +21,9 @@
 .note__createdBy{
     position: absolute;
     left: 0;
+    background-color: var(--color1);
+    padding: 5px;
+    border-radius: 10px;
 }
 
 .note__up{

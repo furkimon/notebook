@@ -22,9 +22,7 @@ export const getNotesForUser = (userID) => async (dispatch, getState) => {
 
 export const filterNotes = (userID, item) => async (dispatch, getState) => {
     try{
-        console.log(userID + ' ' + item)
         const { data } = await api.filterNotes(tokenConfig(getState), userID, item )
-        console.log(data)  
         dispatch({type: FILTER, payload : data})
     }catch(error){
         console.log(error)

@@ -17,12 +17,8 @@ const userSchema = mongoose.Schema({
     registerDate: {
         type: Date,
         default: Date.now
-    }
-    // followers : {
-    //     type: String,
-    //     unique: true
-    // }
-
+    },
+    followers : [String]
 })
 
 const UserModel = mongoose.model('UserModel', userSchema)

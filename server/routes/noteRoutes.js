@@ -5,10 +5,10 @@ import { getNotes, getNotesForUser, createNote, updateNote, deleteNote, filterNo
 
 const router = express.Router()
 
-router.get('/', auth, getNotes)
+router.get('/', getNotes)
 router.get('/createdBy/:userID', auth, getNotesForUser)
 router.post('/', auth,  createNote)
-router.post('/:id', auth, updateNote)
+router.post('/:id', updateNote)
 router.delete('/:id', auth, deleteNote)
 router.get('/createdBy/:userID/category/:item', auth, filterNotes)
 

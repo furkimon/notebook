@@ -102,6 +102,7 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
                             note={note}
                             setSelectedCategory={setSelectedCategory}
                             userID={userID}
+                            userName={userName}
                         />
                     )
                 })
