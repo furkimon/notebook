@@ -18,7 +18,8 @@ const userSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    followers : [String]
+    followers : [String],
+    following : [String]
 })
 
 const UserModel = mongoose.model('UserModel', userSchema)

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import NoteModel from '../models/noteModel.js'
+import UserModel from '../models/userModel.js'
 
 export const getNotes = async (req, res) => {
     try {
@@ -21,6 +22,25 @@ export const getNotesForUser = async (req, res) => {
         res.status(200).json(visibleNotes)
     } catch (error) {
         res.status(404).json({ message: error })
+    }
+}
+
+export const getFollowedNotes = async (req, res) => {
+    try {
+        const {id : _id} = req.params
+
+        const user = UserModel.findById(_id)
+        const notes = await NoteModel.find()
+
+
+        const followedNotes = user.following.map(followed => {
+            return notes.filter((note) => note.createdBy === followed)
+        })
+
+        res.status(200).json(followedNotes)
+
+    } catch (error) {
+        res.status(400).json({message : error})
     }
 }
 

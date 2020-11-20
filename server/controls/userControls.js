@@ -11,31 +11,33 @@ export const getUsers = async (req, res) => {
     }
 }
 
+
 export const followUser = async (req, res) => {
-    try {
-        const { id: _id } = req.params
-        const {followers} = req.body
-        
-        if(!followers){
-            return res.status(400).json({ message: 'enter followers' })
-        }
 
-        const currentUser = await UserModel.findById(_id)
-        if(currentUser.followers.includes(followers)){
-            return res.status(409).json({message : "you are already following"})
-        }
-        console.log(currentUser)
-        if (!mongoose.Types.ObjectId.isValid(_id)) {
-            return res.status(404).send('No user for that id')
-        }
+    const { id: _id } = req.params      // followed user's id as "id" 
+    const { followers } = req.body      // and the current user as "followers"
 
-        const updatedUser = await UserModel.findByIdAndUpdate(_id, {$push: {followers :followers}}, {new: true})
-        console.log(updatedUser)
-
-        res.status(200).json(updatedUser)
-    } catch (error) {
-        res.status(400).json({message : error})
+    if (!followers) {
+        return res.status(400).json({ message: 'enter followers' })
     }
+
+    const currentUser = await UserModel.findById(followers) 
+    const userToFollow = await UserModel.findById(_id)      
+
+    if (userToFollow.followers.includes(followers)) {
+        return res.status(409).json({ message: "you are already following" })
+    }
+
+    currentUser.following.push(_id)
+
+    currentUser.save()
+        .then(
+            userToFollow.followers.push(followers),
+            userToFollow.save()
+                .then(res.json({followed: userToFollow, follower:  currentUser}) )
+                .catch(error => res.status(400).json({ message: error }))
+        )
+        .catch(error => res.status(400).json({ message: error }))
 }
 
 

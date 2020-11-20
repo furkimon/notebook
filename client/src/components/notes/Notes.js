@@ -7,8 +7,8 @@ import Note from './note/Note'
 
 const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading }) => {
     const dispatch = useDispatch()
-    const [userID, setUserID] = useState('')
-    const [userName, setUserName] = useState('')
+    const [userObj, setUserObj] = useState({id : null, name: null, following: null, followers: null})
+    
     const [selectedCategory, setSelectedCategory] = useState(null)  //for show all button
 
     var notesGetter = document.getElementById("notes-getter") // show all button
@@ -20,22 +20,20 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
     
     useEffect(() => {   // get userID based on user type, JSON or object
         if (typeof (user) === 'string') {  // JSON
-            setUserID(JSON.parse(user).id)
-            setUserName(JSON.parse(user).name)
+            setUserObj({id : JSON.parse(user).id, name : JSON.parse(user).name , following: JSON.parse(user).following, followers: JSON.parse(user).followers})
         } else if (typeof (user) === 'object' && user) {  // Object
-            setUserID(user['id'])
-            setUserName(user['name'])
+            setUserObj({id : user['id'], name : user['name'] , following: user['following'], followers: user['followers']})
         } else if (!user) {  // after logout, object NULL
             console.log('user is null')
         }
-    }, [user, userID, userName])
+    }, [user, userObj])
 
     useEffect(() => {  //bring all the notes for the user
         // dispatch(getNotes())
-        if (user !== null && userID) {
-            dispatch(getNotesForUser(userID))
+        if (user !== null && userObj.id) {
+            dispatch(getNotesForUser(userObj.id))
         }
-    }, [user,  userID])
+    }, [user, userObj.id])
 
     useEffect(() => {  // for show all button after category choice
         if (selectedCategory !== null) {
@@ -58,7 +56,7 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
 
     const showAll = () => {
         // dispatch(getNotes())
-        dispatch(getNotesForUser(userID))
+        dispatch(getNotesForUser(userObj.id))
         setSelectedCategory(null)
         notesGetter.style.transform = 'translateY(0)'
         notesGetter.style.visibility = 'hidden'
@@ -101,8 +99,7 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
                             setSelectedId={setSelectedId}
                             note={note}
                             setSelectedCategory={setSelectedCategory}
-                            userID={userID}
-                            userName={userName}
+                            userObj={userObj}
                         />
                     )
                 })

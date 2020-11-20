@@ -2,11 +2,12 @@ import React from 'react'
 import './Note.css'
 import moment from 'moment'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { deleteNote, filterNotes } from '../../../actions/noteActions'
+import { followUser } from '../../../actions/userActions'
 
 
-const Note = ({ user, userID, userName, isProfile, note, setSelectedId, setSelectedCategory }) => {
+const Note = ({ userObj, isProfile, note, setSelectedId, setSelectedCategory }) => {
     const dispatch = useDispatch()
 
     const handleEditButton = (e) => {
@@ -29,16 +30,18 @@ const Note = ({ user, userID, userName, isProfile, note, setSelectedId, setSelec
         if (isProfile) {      // to keep same height in order to not to lose scrolling effect to top
             var profileContainer = document.getElementById("profile-container")
             profileContainer.style.height = profileContainer.scrollHeight + 'px'
-        } else {
+        }
+
+        else {
             var homeContainer = document.getElementById("home-container")
             homeContainer.style.height = homeContainer.scrollHeight + 'px'
         }
 
         window.scrollTo({ top: 0, behavior: 'smooth' })
         setSelectedCategory(item)
-        dispatch(filterNotes(userID, item))
+        dispatch(filterNotes(userObj.id, item))
     }
-
+    if(userObj.name) console.log(Object.values(userObj))
     return (
         <div className="note__container">
             <div className="note__wrapper">
@@ -49,7 +52,11 @@ const Note = ({ user, userID, userName, isProfile, note, setSelectedId, setSelec
                 <div className="note__down">
                     <h5>{note.content}</h5>
                 </div>
-                <div className="note__createdBy">{userName}</div>
+                <div className="note__createdBy">
+                    {userObj.name ? userObj.name + ' ' + userObj.followers.length + ' ' + userObj.following.length : null}
+                    <div onClick={()=> dispatch(followUser(userObj.id, userObj.id))} className="note__createdBy-follow">{userObj.followers.includes(userObj.id) ? "unf" : "follow"}</div>
+                </div>
+                
                 <div className="note__button edit" onClick={() => handleEditButton()}>⚙️</div>
                 <div className="note__button delete" onClick={() => dispatch(deleteNote(note._id))}>❌</div>
             </div>

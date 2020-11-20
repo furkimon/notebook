@@ -17,3 +17,6 @@ export const REGISTER_FAIL = 'REGISTER_FAIL'
 // for errors
 export const GET_ERRORS = 'GET_ERRORS'
 export const CLEAR_ERRORS = 'CLEAR_ERRORS'
+// for users
+export const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS'
+export const UNFOLLOW_SUCCESS = 'UNFOLLOW_SUCCESS'

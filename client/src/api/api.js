@@ -21,3 +21,4 @@ export const login = (body, config) => axios.post(urlAuth, body, config)
 const urlUsers = 'http://localhost:5000/users'
 
 export const register = (body, config) => axios.post(urlUsers, body, config)
+export const followUser = (id, follower) => axios.post(`${urlUsers}/${id}`, follower)

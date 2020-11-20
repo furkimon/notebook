@@ -20,10 +20,30 @@
 
 .note__createdBy{
     position: absolute;
+    text-align: center;
     left: 0;
     background-color: var(--color1);
+    color: var(--color5);
     padding: 5px;
     border-radius: 10px;
+}
+
+.note__createdBy-follow{
+    z-index: 3;
+    position: relative;
+    display: flex;
+    padding: 5px;
+    background-color: var(--color5);
+    color: var(--color4);
+    border-radius: 10px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.note__createdBy-follow:hover{
+    transform: scale(0.95);
+    transition: 0.2s;
+
 }
 
 .note__up{
