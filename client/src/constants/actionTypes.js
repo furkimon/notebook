@@ -1,5 +1,6 @@
 //crud notes
 export const GETALL = 'GET_ALL'
+export const FOLLOWED_NOTES = 'FOLLOWED_NOTES'
 export const CREATE = 'CREATE'
 export const UPDATE = 'UPDATE'
 export const DELETE = 'DELETE'

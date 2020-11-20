@@ -1,7 +1,7 @@
 
 
 const initialState = {
-    following: null,
+    following: null,            //  ???
     followers: null
 }
 

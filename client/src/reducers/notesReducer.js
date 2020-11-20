@@ -1,21 +1,45 @@
-import { GETALL, CREATE, UPDATE, DELETE, FILTER, CLEAN_NOTES } from '../constants/actionTypes'
+import { GETALL, CREATE, UPDATE, DELETE, FILTER, CLEAN_NOTES, FOLLOWED_NOTES } from '../constants/actionTypes'
 
+const initialState = {
+    notes : [],
+    followedNotes : []
+}
 
-export default (notes = [], action) => {
+export default (state = initialState, action) => {
     switch (action.type){
         case GETALL:
-            return action.payload;
+            return {
+                ...state,
+                notes : action.payload
+            }
+        case FOLLOWED_NOTES:
+            return {
+                ...state,
+                followedNotes : action.payload
+            }
         case CREATE:
-            return [...notes, action.payload];
+            return {
+                ...state,
+                notes : [...state.notes, action.payload]
+            }
         case UPDATE:
-            return notes.map((note) => note._id === action.payload._id ? action.payload : note)
+            return {
+                ...state,
+                notes : state.notes.map((note) => note._id === action.payload._id ? action.payload : note)
+            }
         case DELETE:
-            return notes.filter((note) => note._id !== action.payload)
+            return {
+                ...state,
+                notes: state.notes.filter((note) => note._id !== action.payload)
+            }
         case FILTER:
-            return action.payload
+            return {
+                ...state,
+                notes : action.payload
+            }
         case CLEAN_NOTES:
             return []
         default:
-            return notes;
+            return state;
     }
 }

@@ -10,6 +10,7 @@ import { followUser } from '../../../actions/userActions'
 const Note = ({ userObj, isProfile, note, setSelectedId, setSelectedCategory }) => {
     const dispatch = useDispatch()
 
+
     const handleEditButton = (e) => {
         setSelectedId(note._id)
         if (e) {
@@ -41,7 +42,6 @@ const Note = ({ userObj, isProfile, note, setSelectedId, setSelectedCategory }) 
         setSelectedCategory(item)
         dispatch(filterNotes(userObj.id, item))
     }
-    if(userObj.name) console.log(Object.values(userObj))
     return (
         <div className="note__container">
             <div className="note__wrapper">
@@ -54,7 +54,9 @@ const Note = ({ userObj, isProfile, note, setSelectedId, setSelectedCategory }) 
                 </div>
                 <div className="note__createdBy">
                     {userObj.name ? userObj.name + ' ' + userObj.followers.length + ' ' + userObj.following.length : null}
-                    <div onClick={()=> dispatch(followUser(userObj.id, userObj.id))} className="note__createdBy-follow">{userObj.followers.includes(userObj.id) ? "unf" : "follow"}</div>
+                    <div className="note__createdBy-follow" onClick={()=> dispatch(followUser(note.createdBy, userObj.id))} >
+                        {userObj.following ? userObj.following.includes(note.createdBy) ? "unf" : "follow" : null}
+                    </div>
                 </div>
                 
                 <div className="note__button edit" onClick={() => handleEditButton()}>⚙️</div>

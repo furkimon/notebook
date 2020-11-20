@@ -9,10 +9,12 @@ const Form = ({ selectedId, setSelectedId }) => {
     
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.auth)
-    const selectedNote = useSelector(state => state.notes.find((note) => note._id === selectedId))
+    const { notes } = useSelector(state => state.notes)
+    var selectedNote = notes ? notes.map((note) => note._id === selectedId) : null
+    // const selectedNote = useSelector(state => state.notes.notes.find((note) => note._id === selectedId))
     
     const [holdString, setHoldString] = useState({})
-    const [note, setNote] = useState({ title: null, content: null, category: [],  createdBy: null}) //, createdBy: null , createdBy: user ? JSON.parse(user).id : null 
+    const [note, setNote] = useState({ title: null, content: null, category: [],  createdBy: null})
     const [userID, setUserID] = useState('')
     const [categoryCount, setCategoryCount] = useState(['herro'])
     
@@ -82,11 +84,10 @@ const Form = ({ selectedId, setSelectedId }) => {
         setCategoryCount([...categoryCount, 'herro'])
     }
 
-
     return (
         <div className="form__container" id="form-container">
             <div className="form__wrapper">
-                <h1>{selectedNote ? 'Edit ' : 'Create '}Note</h1>
+                <h1>{selectedId ? 'Edit ' : 'Create '}Note</h1>
                 <div className="form">
                     <div className="form__row title">
                         <label>title</label>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getNotesForUser } from '../../actions/noteActions'
 
 import Note from './note/Note'
+import { getFollowedNotes } from '../../api/api'
 
 const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading }) => {
     const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
 
     useEffect(() => {  //bring all the notes for the user
         // dispatch(getNotes())
-        if (user !== null && userObj.id) {
+        if (user !== null && userObj.id && isProfile) {
             dispatch(getNotesForUser(userObj.id))
         }
     }, [user, userObj.id])
@@ -52,7 +53,7 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
             clearInterval(loadAnimation)
         }
 
-    }, [notes.length, isLoading])
+    }, [notes, isLoading])
 
     const showAll = () => {
         // dispatch(getNotes())
@@ -80,7 +81,6 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
             animateLoading()
         }, 1000)
     }
-
     return (
         <div className="notes__container" id="notes-container">
             <div className="loading" id="loading">
@@ -90,20 +90,20 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
             </div>
             <div className="notes__wrapper">
                 <div className="notes__getter" id="notes-getter" onClick={() => showAll()}>show all</div>
-                {notes.map((note) => {
+                {notes ? notes.map((note) => {
                     return (
                         <Note
                             isProfile={isProfile}
                             key={note.id}
+                            note={note}
                             selectedId={selectedId}
                             setSelectedId={setSelectedId}
-                            note={note}
                             setSelectedCategory={setSelectedCategory}
                             userObj={userObj}
                         />
                     )
                 })
-                }
+                :null}
             </div>
         </div >
     )

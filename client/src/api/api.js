@@ -4,6 +4,7 @@ const urlNotes = 'http://localhost:5000/notes'
 
 export const getNotes = (config) => axios.get(urlNotes, config)
 export const getNotesForUser = (config, userID) => axios.get(`${urlNotes}/createdBy/${userID}`, config)
+export const getFollowedNotes = (config, id) => axios.get(`${urlNotes}/${id}/followed`, config)
 export const filterNotes = (config, userID, item ) => axios.get(`${urlNotes}/createdBy/${userID}/category/${item}`, config, userID, item )
 export const createNotes = (note, id, config) => axios.post(urlNotes, note, config)
 export const updateNotes = (id, note, config) => axios.post(`${urlNotes}/${id}`, note, config)

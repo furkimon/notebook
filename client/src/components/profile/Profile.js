@@ -8,7 +8,7 @@ import { Notes, Form } from '..'
 const Profile = () => {
     const [selectedId, setSelectedId] = useState(null)
     const { isLoading, user } = useSelector((state) => state.auth)
-    const notes = useSelector((state) => state.notes)
+    const {notes} = useSelector((state) => state.notes)
     const isProfile = true
 
     return (

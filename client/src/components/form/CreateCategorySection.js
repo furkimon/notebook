@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 const CreateCategorySection = ({ i, note, setNote, holdString, setHoldString }) => {
 
-    const notes = useSelector(state => state.notes)
+    const {notes} = useSelector(state => state.notes)
 
     useEffect(() => {
         var inputCategory = document.getElementById(`input-category${i}`)
@@ -27,7 +27,7 @@ const CreateCategorySection = ({ i, note, setNote, holdString, setHoldString }) 
 
     const getCategories = () => {
         var allCategories = ['choose category']
-        notes.map((note) => note.category.map(c => !allCategories.includes(c) ? allCategories.push(c) : null))
+        if(notes) notes.map((note) => note.category.map(c => !allCategories.includes(c) ? allCategories.push(c) : null))
         return allCategories
     }
 

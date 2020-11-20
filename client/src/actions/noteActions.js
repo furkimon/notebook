@@ -1,5 +1,5 @@
 import * as api from '../api/api.js'
-import { GETALL, CREATE, UPDATE, DELETE, FILTER, CLEAN_NOTES } from '../constants/actionTypes'
+import { GETALL, FOLLOWED_NOTES, CREATE, UPDATE, DELETE, FILTER, CLEAN_NOTES,} from '../constants/actionTypes'
 import { tokenConfig } from './authActions.js'
 
 export const getNotes = () => async (dispatch, getState) => {
@@ -15,6 +15,15 @@ export const getNotesForUser = (userID) => async (dispatch, getState) => {
     try {
         const { data } = await api.getNotesForUser(tokenConfig(getState), userID)
         dispatch({ type: GETALL, payload: data })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getFollowedNotes = (id) => async (dispatch, getState) => {
+    try {
+        const { data } = await api.getFollowedNotes(tokenConfig(getState), id)
+        dispatch({type : FOLLOWED_NOTES, payload: data})
     } catch (error) {
         console.log(error)
     }

@@ -9,7 +9,7 @@ const Home = () => {
     useEffect(() => {
         var homeContainer = document.getElementById('home-container')
         isAuthenticated
-            ? homeContainer.style.height = "max-content"
+            ? homeContainer.style.height = "max-content"// homeContainer.offsetHeight + "px"
             : homeContainer.style.height = "calc(100vh - 50px)"
     }, [isAuthenticated])
 
