@@ -11,9 +11,9 @@ export const getNotes = () => async (dispatch, getState) => {
     }
 }
 
-export const getNotesForUser = (userID) => async (dispatch, getState) => {
+export const getNotesForUser = (id) => async (dispatch, getState) => {
     try {
-        const { data } = await api.getNotesForUser(tokenConfig(getState), userID)
+        const { data } = await api.getNotesForUser(tokenConfig(getState), id)
         dispatch({ type: GETALL, payload: data })
     } catch (error) {
         console.log(error)
@@ -21,8 +21,6 @@ export const getNotesForUser = (userID) => async (dispatch, getState) => {
 }
 
 export const getFollowedNotes = (id) => async (dispatch, getState) => {
-    console.log(id)
-    console.log(tokenConfig(getState))
     try {
         const { data } = await api.getFollowedNotes(tokenConfig(getState), id)
         dispatch({type : FOLLOWED_NOTES, payload: data})
@@ -31,9 +29,9 @@ export const getFollowedNotes = (id) => async (dispatch, getState) => {
     }
 }
 
-export const filterNotes = (userID, item) => async (dispatch, getState) => {
+export const filterNotes = (id, item) => async (dispatch, getState) => {
     try{
-        const { data } = await api.filterNotes(tokenConfig(getState), userID, item )
+        const { data } = await api.filterNotes(tokenConfig(getState), id, item )
         dispatch({type: FILTER, payload : data})
     }catch(error){
         console.log(error)
@@ -41,8 +39,6 @@ export const filterNotes = (userID, item) => async (dispatch, getState) => {
 }
 
 export const createNote = (note, id) => async (dispatch, getState) => {
-    console.log(note)
-    console.log(id)
     try {
         const { data } = await api.createNotes(note, id, tokenConfig(getState))
         console.log(data)

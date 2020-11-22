@@ -40,7 +40,7 @@ const Note = ({ isProfile, note, setSelectedId, setSelectedCategory }) => {
 
         window.scrollTo({ top: 0, behavior: 'smooth' })
         setSelectedCategory(item)
-        dispatch(filterNotes(user['id'], item))
+        dispatch(filterNotes(user['_id'], item))
     }
     return (
         <div className="note__container">

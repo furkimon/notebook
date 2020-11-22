@@ -14,10 +14,10 @@ export const getNotes = async (req, res) => {
 
 export const getNotesForUser = async (req, res) => {
     try {
-        const {userID : userID} = req.params
+        const {id : _id} = req.params
 
         const notes = await NoteModel.find()
-        const visibleNotes = notes.filter((note) => note.createdBy === userID)
+        const visibleNotes = notes.filter((note) => note.createdBy === _id)
 
         res.status(200).json(visibleNotes)
     } catch (error) {
@@ -44,10 +44,10 @@ export const getFollowedNotes = async (req, res) => {
 
 export const filterNotes = async (req, res) => {
     try {
-        const { userID, item } = req.params
+        const { id, item } = req.params
         const notes = await NoteModel.find()   
 
-        var filteredNotes = notes.filter((note) => note.category.includes(item) && note.createdBy === userID )
+        var filteredNotes = notes.filter((note) => note.category.includes(item) && note.createdBy === id )
         res.status(200).json(filteredNotes)
     } catch (error) {
         res.status(404).json({message : error})

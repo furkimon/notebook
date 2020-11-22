@@ -3,9 +3,9 @@ import axios from 'axios'
 const urlNotes = 'http://localhost:5000/notes'
 
 export const getNotes = (config) => axios.get(urlNotes, config)
-export const getNotesForUser = (config, userID) => axios.get(`${urlNotes}/createdBy/${userID}`, config)
+export const getNotesForUser = (config, id) => axios.get(`${urlNotes}/createdBy/${id}`, config)
 export const getFollowedNotes = (config, id) => axios.get(`${urlNotes}/${id}/followed`, config)
-export const filterNotes = (config, userID, item ) => axios.get(`${urlNotes}/createdBy/${userID}/category/${item}`, config )
+export const filterNotes = (config, id, item ) => axios.get(`${urlNotes}/createdBy/${id}/category/${item}`, config )
 export const createNotes = (note, id, config) => axios.post(urlNotes, note, config)
 export const updateNotes = (id, note, config) => axios.post(`${urlNotes}/${id}`, note, config)
 export const deleteNote = (id, config) => axios.delete(`${urlNotes}/${id}`, config)

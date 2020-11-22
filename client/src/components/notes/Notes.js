@@ -38,7 +38,7 @@ const Notes = ({ isProfile, notes, selectedId, setSelectedId }) => {
 
     const showAll = () => {
         // dispatch(getNotes())
-        dispatch(getNotesForUser(user['id']))
+        dispatch(getNotesForUser(user['_id']))
         setSelectedCategory(null)
         notesGetter.style.transform = 'translateY(0)'
         notesGetter.style.visibility = 'hidden'
