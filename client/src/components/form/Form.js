@@ -13,7 +13,7 @@ const Form = ({ selectedId, setSelectedId }) => {
     var selectedNote = notes ? notes.map((note) => note._id === selectedId) : null
     // const selectedNote = useSelector(state => state.notes.notes.find((note) => note._id === selectedId))
     
-    const [holdString, setHoldString] = useState({})
+    const [holdString, setHoldString] = useState({})  // for category
     const [note, setNote] = useState({ title: null, content: null, category: [],  createdBy: null})
     const [userID, setUserID] = useState('')
     const [categoryCount, setCategoryCount] = useState(['herro'])
@@ -32,19 +32,13 @@ const Form = ({ selectedId, setSelectedId }) => {
     }, [selectedNote, categoryCount])
 
     useEffect(() => {
-        if (typeof(user) === 'string'){  // JSON
-            setUserID(JSON.parse(user).id)
-            setNote({ ...note, createdBy: JSON.parse(user).id})
-        }else if(typeof(user) === 'object' && user) {  // Object
+        if(user) { 
             setUserID(user['id'])
             setNote({ ...note, createdBy: user['id']})
-        }else if(!user){  // after logout, object NULL
-            console.log('user is null')
         }
     }, [user])
 
     const onSubmit = () => {
-        console.log(selectedId + ' ' + note + ' ' + userID)
         if (selectedId) {
             dispatch(updateNote(selectedId, note)) // Object.entries(note)
         } else {

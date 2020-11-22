@@ -21,6 +21,8 @@ export const getNotesForUser = (userID) => async (dispatch, getState) => {
 }
 
 export const getFollowedNotes = (id) => async (dispatch, getState) => {
+    console.log(id)
+    console.log(tokenConfig(getState))
     try {
         const { data } = await api.getFollowedNotes(tokenConfig(getState), id)
         dispatch({type : FOLLOWED_NOTES, payload: data})

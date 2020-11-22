@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import './Profile.css'
 import { useSelector } from 'react-redux'
 
-import { Notes, Form } from '..'
+import { Notes, Form } from '../'
 
 
 const Profile = () => {
+    const {notes} = useSelector(state => state.notes)
     const [selectedId, setSelectedId] = useState(null)
-    const { isLoading, user } = useSelector((state) => state.auth)
-    const {notes} = useSelector((state) => state.notes)
     const isProfile = true
 
     return (
@@ -17,8 +16,6 @@ const Profile = () => {
                 <Notes
                     isProfile={isProfile}
                     notes={notes}
-                    isLoading={isLoading}
-                    user={user}
                     selectedId={selectedId}
                     setSelectedId={setSelectedId}
                 />

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 
 export const loadUser = async (req, res) => { // TO SEE USER
     await UserModel.findById(req.user.id)
-        .select('-password')  // leave the password
+        .select('-password')  // except the password
         .then(user => res.json(user))
 }
 
@@ -22,16 +22,12 @@ export const login = async (req, res) => {  // for users LOGIN
                 .then(isMatch => {
                     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" })
 
-                    jwt.sign(  // auth is stateless for jwt!
-                        { id: user.id },
-                        process.env.jwtSecret,
-                        { expiresIn: 3600 },
-                        (err, token) => {
+                    jwt.sign( { id: user.id }, process.env.jwtSecret, { expiresIn: 3600 }, (err, token) => {
                             if (err) throw err
-                            res.json({
+                            res.json({                  // res.json idi
                                 token,
                                 user: {
-                                    id: user.id,
+                                    _id: user.id,
                                     name: user.name,
                                     email: user.email,
                                     following: user.following,

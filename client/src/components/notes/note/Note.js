@@ -7,9 +7,9 @@ import { deleteNote, filterNotes } from '../../../actions/noteActions'
 import { followUser } from '../../../actions/userActions'
 
 
-const Note = ({ userObj, isProfile, note, setSelectedId, setSelectedCategory }) => {
+const Note = ({ isProfile, note, setSelectedId, setSelectedCategory }) => {
     const dispatch = useDispatch()
-
+    const {user} = useSelector(state => state.auth)
 
     const handleEditButton = (e) => {
         setSelectedId(note._id)
@@ -40,7 +40,7 @@ const Note = ({ userObj, isProfile, note, setSelectedId, setSelectedCategory }) 
 
         window.scrollTo({ top: 0, behavior: 'smooth' })
         setSelectedCategory(item)
-        dispatch(filterNotes(userObj.id, item))
+        dispatch(filterNotes(user['id'], item))
     }
     return (
         <div className="note__container">
@@ -53,9 +53,9 @@ const Note = ({ userObj, isProfile, note, setSelectedId, setSelectedCategory }) 
                     <h5>{note.content}</h5>
                 </div>
                 <div className="note__createdBy">
-                    {userObj.name ? userObj.name + ' ' + userObj.followers.length + ' ' + userObj.following.length : null}
-                    <div className="note__createdBy-follow" onClick={()=> dispatch(followUser(note.createdBy, userObj.id))} >
-                        {userObj.following ? userObj.following.includes(note.createdBy) ? "unf" : "follow" : null}
+                    {user && user['name'] ? user['name'] + ' ' + user['followers'].length + ' ' + user['following'].length : null}
+                    <div className="note__createdBy-follow" onClick={()=> dispatch(followUser(note.createdBy, user['id']))} >
+                        {user && user['following'] ? user['following'].includes(note.createdBy) ? "unf" : "follow" : null}
                     </div>
                 </div>
                 

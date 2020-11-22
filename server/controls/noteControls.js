@@ -28,14 +28,8 @@ export const getNotesForUser = async (req, res) => {
 export const getFollowedNotes = async (req, res) => {
     try {
         const {id : _id} = req.params
-
         const user = await UserModel.findById(_id)
         const notes = await NoteModel.find()
-
-        // const followedNotes 
-        // = user.following.map(followed => {
-        //     return notes.filter((note) => note.createdBy === followed)
-        // })
 
         const followedNotes = notes.filter((note) => {
             return user.following.includes(note.createdBy)

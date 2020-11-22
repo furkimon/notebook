@@ -10,20 +10,18 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
-    REGISTER_SUCCESS
 } from '../constants/actionTypes'
 
 
 //Check token and load user
 export const loadUser = () => async (dispatch, getState) => {
     dispatch({ type: USER_LOADING }) //isloading = true
-
     try {
         const { data } = await api.loadUser(tokenConfig(getState))
         dispatch({ type: USER_LOADED, payload: data })
     } catch (error) {
         console.log(error)
-        dispatch(returnErrors(error.data, error.status, REGISTER_FAIL)) //response.data
+        dispatch(returnErrors(error.data, error.status)) //response.data
         dispatch({ type: AUTH_ERROR })
     }
 }
@@ -42,22 +40,7 @@ export const tokenConfig = (getState) => {
     return config
 }
 
-export const register = (user) => async (dispatch) => {
-    //headers
-    const config = { headers: { 'Content-Type': 'application/json'} }
 
-    try {
-        // const { name, email, password } = user
-        const body = JSON.stringify(user)
-
-        const { data } = await api.register(body, config)
-        dispatch({ type: REGISTER_SUCCESS, payload: data })
-    } catch (error) {
-        console.log(error)
-        dispatch({ type: REGISTER_FAIL })
-        dispatch(returnErrors(error.response.data.message, error.response.status, REGISTER_FAIL))
-    }
-} 
 
 export const login = (user) => async (dispatch) => {
     try {

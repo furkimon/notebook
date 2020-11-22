@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import './Notes.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { getNotesForUser } from '../../actions/noteActions'
+import { getNotesForUser, getFollowedNotes } from '../../actions/noteActions'
 
 import Note from './note/Note'
-import { getFollowedNotes } from '../../api/api'
 
-const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading }) => {
+const Notes = ({ isProfile, notes, selectedId, setSelectedId }) => {
     const dispatch = useDispatch()
-    const [userObj, setUserObj] = useState({id : null, name: null, following: null, followers: null})
-    
+    const { isAuthenticated, isLoading, user } = useSelector((state) => state.auth)
+
     const [selectedCategory, setSelectedCategory] = useState(null)  //for show all button
 
     var notesGetter = document.getElementById("notes-getter") // show all button
@@ -18,23 +17,6 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
     var loadAnimation
     var loadTimer1
     var loadTimer2
-    
-    useEffect(() => {   // get userID based on user type, JSON or object
-        if (typeof (user) === 'string') {  // JSON
-            setUserObj({id : JSON.parse(user).id, name : JSON.parse(user).name , following: JSON.parse(user).following, followers: JSON.parse(user).followers})
-        } else if (typeof (user) === 'object' && user) {  // Object
-            setUserObj({id : user['id'], name : user['name'] , following: user['following'], followers: user['followers']})
-        } else if (!user) {  // after logout, object NULL
-            console.log('user is null')
-        }
-    }, [user, userObj])
-
-    useEffect(() => {  //bring all the notes for the user
-        // dispatch(getNotes())
-        if (user !== null && userObj.id && isProfile) {
-            dispatch(getNotesForUser(userObj.id))
-        }
-    }, [user, userObj.id])
 
     useEffect(() => {  // for show all button after category choice
         if (selectedCategory !== null) {
@@ -44,7 +26,7 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
     }, [selectedCategory])
 
     useEffect(() => {  // for loading animation
-        if (isLoading && notes.length) {
+        if (isLoading && notes) {
             runAnimation()
         } else {
             document.getElementById('loading').style.display = "none"
@@ -52,19 +34,19 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
             clearTimeout(loadTimer2)
             clearInterval(loadAnimation)
         }
-
     }, [notes, isLoading])
 
     const showAll = () => {
         // dispatch(getNotes())
-        dispatch(getNotesForUser(userObj.id))
+        dispatch(getNotesForUser(user['id']))
         setSelectedCategory(null)
         notesGetter.style.transform = 'translateY(0)'
         notesGetter.style.visibility = 'hidden'
     }
 
     const animateLoading = () => {  // loading animation
-        for (let i = 0; i < loading.length; i++) {
+        if(isLoading){
+            for (let i = 0; i < loading.length; i++) {
             loadTimer1 = setTimeout(() => {
                 document.getElementById(`member${i}`).style.animation = "hop 0.6s ease-in-out"
             }, (i + 1) * 100)
@@ -72,14 +54,16 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
             loadTimer2 = setTimeout(() => {
                 document.getElementById(`member${i}`).style.animation = "none"
             }, (i + 1) * 100 + 600)
-        }
+        }}
     }
 
     const runAnimation = () => {  // "animateLoading" runs right away and with interval afterwards
-        animateLoading()
-        loadAnimation = setInterval(() => {
+        if (isLoading) {
             animateLoading()
-        }, 1000)
+            loadAnimation = setInterval(() => {
+                animateLoading()
+            }, 1000)
+        }
     }
     return (
         <div className="notes__container" id="notes-container">
@@ -99,11 +83,10 @@ const Notes = ({ isProfile, notes, user, selectedId, setSelectedId, isLoading })
                             selectedId={selectedId}
                             setSelectedId={setSelectedId}
                             setSelectedCategory={setSelectedCategory}
-                            userObj={userObj}
                         />
                     )
                 })
-                :null}
+                    : null}
             </div>
         </div >
     )

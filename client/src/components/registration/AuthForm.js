@@ -1,9 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './Registration.css'
 import { useDispatch, useSelector } from 'react-redux'
 import {useHistory} from 'react-router-dom'
 
-import { login, register } from '../../actions/authActions'
+import { login } from '../../actions/authActions'
+import { register } from '../../actions/userActions'
+import { clearErrors } from '../../actions/errorActions'
 import { REGISTER_FAIL, LOGIN_FAIL } from '../../constants/actionTypes'
 
 
@@ -13,6 +15,9 @@ const AuthForm = ({ holdUser, setHoldUser, isSignup }) => {
     const { id, message } = useSelector(state => state.error)
     const {isAuthenticated} = useSelector(state => state.auth)
 
+    useEffect(() => {
+       if(isAuthenticated) return dispatch(clearErrors())
+    }, [isAuthenticated])
 
     const onSubmit = (holdUser) => {
         if (isSignup) {
