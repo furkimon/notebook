@@ -58,7 +58,7 @@ export const filterTimeline = async (req, res) => {
         const notes = await NoteModel.find()   
         const user = await UserModel.findById(id)   
 
-        var filteredNotes = notes.filter((note) => user.following.includes(note.createdBy) && note.category.includes(item) )
+        var filteredNotes = notes.filter((note) => (note.createdBy === id || user.following.includes(note.createdBy) ) && note.category.includes(item) )
         res.status(200).json(filteredNotes)
     } catch (error) {
         res.status(404).json({message : error})
