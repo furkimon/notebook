@@ -36,7 +36,6 @@ const Notes = ({ isProfile, notes, selectedId, setSelectedId }) => {
         notesGetter.style.visibility = 'hidden'
     }
 
-    console.log(notes)
     return (
         <div className="notes__container" id="notes-container">
             {notes ? notes.length === 0 : null || isLoading ? <Loading/> : null}

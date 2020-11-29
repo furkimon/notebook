@@ -1,6 +1,7 @@
 import UserModel from '../models/userModel.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
 
 export const getUsers = async (req, res) => {
     try {
@@ -36,11 +37,11 @@ export const followUser = async (req, res) => {
             )
             .catch(error => res.status(400).json({ message: error }))
     } else {
-        currentUser.following.push(_id)
+        !currentUser.following.includes(_id) ? currentUser.following.push(_id) : res.json({message : "you already follow"})
 
         currentUser.save()
             .then(
-                userToFollow.followers.push(follower),
+                !userToFollow.followers.includes(follower) ? userToFollow.followers.push(follower) : res.json({message: "you already follow"}),
                 userToFollow.save()
                     .then(res.json({ followed: userToFollow, follower: currentUser }))
             )
@@ -88,4 +89,16 @@ export const register = async (req, res) => {
                 })
         })
     })
+}
+
+export const updateUser = async (req, res) => {
+    const {id : _id} = req.params
+    const user = req.body
+
+    if(!mongoose.Types.ObjectId.isValid(_id)){
+        return res.status(404).send('No user for that id')
+    }
+    const updatedUser = await UserModel.findByIdAndUpdate(_id, {...user, user},  {new : true})
+
+    res.json(updatedUser)
 }

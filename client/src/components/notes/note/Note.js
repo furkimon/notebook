@@ -44,7 +44,7 @@ const Note = ({ isProfile, note, setSelectedId, setSelectedCategory }) => {
         setSelectedCategory(item)
         dispatch(filterNotes(user['_id'], item))
     }
-    console.log(note)
+
     return (
         <div className="note__container">
             <div className="note__wrapper">
