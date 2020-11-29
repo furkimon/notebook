@@ -31,9 +31,7 @@ export const getFollowedNotes = async (req, res) => {
         const user = await UserModel.findById(_id)
         const notes = await NoteModel.find()
 
-        const followedNotes = notes.filter((note) => {
-            return user.following.includes(note.createdBy)
-        })
+        const followedNotes = notes.filter((note) => user.following.includes(note.createdBy) || note.createdBy === _id)
 
         res.status(200).json(followedNotes)
 

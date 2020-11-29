@@ -26,7 +26,8 @@ export default (state = initialState, action) => {
         case CREATE:
             return {
                 ...state,
-                personalNotes: [...state.personalNotes, action.payload]
+                personalNotes: [...state.personalNotes, action.payload],
+                followedNotes: [...state.followedNotes, action.payload]
             }
         case UPDATE:
             return {
@@ -36,7 +37,8 @@ export default (state = initialState, action) => {
         case DELETE:
             return {
                 ...state,
-                personalNotes: state.personalNotes.filter((note) => note._id !== action.payload)
+                personalNotes: state.personalNotes.filter((note) => note._id !== action.payload),
+                followedNotes: state.followedNotes.filter((note) => note._id !== action.payload)
             }
         case FILTER:
             return {

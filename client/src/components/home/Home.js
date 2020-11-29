@@ -14,7 +14,7 @@ const Home = () => {
         isAuthenticated && followedNotes.length
             ? homeContainer.style.height = "max-content"// homeContainer.offsetHeight + "px"
             : homeContainer.style.height = "calc(100vh - 50px)"
-    }, [isAuthenticated, followedNotes.length])
+    }, [isAuthenticated, followedNotes])
 
 
     return (

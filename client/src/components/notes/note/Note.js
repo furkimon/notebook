@@ -59,9 +59,9 @@ const Note = ({ isProfile, note, setSelectedId, setSelectedCategory }) => {
                     {user && isProfile 
                     ? user['name'] + ' ' + user['followers'].length + ' ' + user['following'].length 
                     : followedUser ? followedUser['name'] + ' ' + followedUser['followers'].length + ' ' +followedUser['following'].length : null}
-                    {!isProfile
+                    {!isProfile && note.createdBy !== user['_id']
                     ?<div className="note__createdBy-follow" onClick={()=> dispatch(followUser(note.createdBy, {follower : user._id}))} >
-                        {user && user['following'] ? user['following'].includes(note.createdBy) ? "unf" : "follow" : null}
+                        { user && user['following'] ? user['following'].includes(note.createdBy) ? "unf" : "follow" : null }
                     </div>:null}
                 </div>
                 
