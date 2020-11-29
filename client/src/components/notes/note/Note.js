@@ -3,7 +3,7 @@ import './Note.css'
 import moment from 'moment'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteNote, filterNotes } from '../../../actions/noteActions'
+import { deleteNote, filterNotes, filterTimeline } from '../../../actions/noteActions'
 import { followUser } from '../../../actions/userActions'
 
 
@@ -42,7 +42,7 @@ const Note = ({ isProfile, note, setSelectedId, setSelectedCategory }) => {
 
         window.scrollTo({ top: 0, behavior: 'smooth' })
         setSelectedCategory(item)
-        dispatch(filterNotes(user['_id'], item))
+        isProfile ? dispatch(filterNotes(user['_id'], item)) : dispatch(filterTimeline(user['_id'], item))
     }
 
     return (
@@ -65,8 +65,9 @@ const Note = ({ isProfile, note, setSelectedId, setSelectedCategory }) => {
                     </div>:null}
                 </div>
                 
-                <div className="note__button edit" onClick={() => handleEditButton()}>⚙️</div>
-                <div className="note__button delete" onClick={() => dispatch(deleteNote(note._id))}>❌</div>
+                {note.createdBy === user._id 
+                ? <><div className="note__button edit" onClick={() => handleEditButton()}>⚙️</div>
+                    <div className="note__button delete" onClick={() => dispatch(deleteNote(note._id))}>❌</div></> : null}
             </div>
             <div className="note__category">
                 {!note.category.length

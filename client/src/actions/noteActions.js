@@ -1,5 +1,5 @@
 import * as api from '../api/api.js'
-import { GETALL, FOLLOWED_NOTES, CREATE, UPDATE, DELETE, FILTER, CLEAN_NOTES, PERSONAL_NOTES} from '../constants/actionTypes'
+import { GETALL, FOLLOWED_NOTES, CREATE, UPDATE, DELETE, FILTER, FILTER_TIMELINE, CLEAN_NOTES, PERSONAL_NOTES} from '../constants/actionTypes'
 import { tokenConfig } from './authActions.js'
 
 export const getNotes = () => async (dispatch, getState) => {
@@ -33,6 +33,15 @@ export const filterNotes = (id, item) => async (dispatch, getState) => {
     try{
         const { data } = await api.filterNotes(tokenConfig(getState), id, item )
         dispatch({type: FILTER, payload : data})
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export const filterTimeline = (id, item) => async (dispatch, getState) => {
+    try{
+        const { data } = await api.filterTimeline(tokenConfig(getState), id, item )
+        dispatch({type: FILTER_TIMELINE, payload : data})
     }catch(error){
         console.log(error)
     }

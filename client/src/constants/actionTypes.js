@@ -6,6 +6,7 @@ export const CREATE = 'CREATE'
 export const UPDATE = 'UPDATE'
 export const DELETE = 'DELETE'
 export const FILTER = 'FILTER'
+export const FILTER_TIMELINE = 'FILTER_TIMELINE'
 export const CLEAN_NOTES = 'CLEAN_NOTES'
 export const FOLLOW_NOTES_UPDATE = 'FOLLOW_NOTES_UPDATE'
 // auth reducer

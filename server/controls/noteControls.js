@@ -54,6 +54,19 @@ export const filterNotes = async (req, res) => {
     }
 }
 
+export const filterTimeline = async (req, res) => {
+    try {
+        const { id, item } = req.params
+        const notes = await NoteModel.find()   
+        const user = await UserModel.findById(id)   
+
+        var filteredNotes = notes.filter((note) => user.following.includes(note.createdBy) && note.category.includes(item) )
+        res.status(200).json(filteredNotes)
+    } catch (error) {
+        res.status(404).json({message : error})
+    }
+}
+
 export const createNote = async (req, res) => {
     try {
         const {id: _id} = req.params

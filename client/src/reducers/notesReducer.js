@@ -1,4 +1,4 @@
-import { GETALL, CREATE, UPDATE, DELETE, FILTER, CLEAN_NOTES, FOLLOWED_NOTES, FOLLOW_NOTES_UPDATE, PERSONAL_NOTES } from '../constants/actionTypes'
+import { GETALL, CREATE, UPDATE, DELETE, FILTER, FILTER_TIMELINE, CLEAN_NOTES, FOLLOWED_NOTES, FOLLOW_NOTES_UPDATE, PERSONAL_NOTES } from '../constants/actionTypes'
 
 const initialState = {
     notes: [],
@@ -42,6 +42,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 personalNotes: action.payload
+            }
+        case FILTER_TIMELINE:
+            return {
+                ...state,
+                followedNotes: action.payload
             }
         case FOLLOW_NOTES_UPDATE:
             let followed
