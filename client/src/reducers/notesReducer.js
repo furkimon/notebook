@@ -32,7 +32,8 @@ export default (state = initialState, action) => {
         case UPDATE:
             return {
                 ...state,
-                personalNotes: state.personalNotes.map((note) => note._id === action.payload._id ? action.payload : note)
+                personalNotes: state.personalNotes.map((note) => note._id === action.payload._id ? action.payload : note),
+                followedNotes: state.followedNotes.map((note) => note._id === action.payload._id ? action.payload : note)
             }
         case DELETE:
             return {
