@@ -15,29 +15,37 @@ export const getUsers = async (req, res) => {
 export const followUser = async (req, res) => {
 
     const { id: _id } = req.params      // followed user's id as "id" 
-    const { followers } = req.body      // and the current user as "followers"
+    const { follower } = req.body      // and the current user as "followers"
 
-    if (!followers) {
+    if (!follower) {
         return res.status(400).json({ message: 'enter followers' })
     }
 
-    const currentUser = await UserModel.findById(followers) 
-    const userToFollow = await UserModel.findById(_id)      
+    const currentUser = await UserModel.findById(follower)
+    const userToFollow = await UserModel.findById(_id)
 
-    if (userToFollow.followers.includes(followers)) {
-        return res.status(409).json({ message: "you are already following" })
-    }
+    if (userToFollow.followers.includes(follower)) {
 
-    currentUser.following.push(_id)
-
-    currentUser.save()
+        userToFollow.followers.splice(userToFollow.followers.indexOf(follower), 1)
+        userToFollow.save()
+        
         .then(
-            userToFollow.followers.push(followers),
-            userToFollow.save()
-                .then(res.json({followed: userToFollow, follower:  currentUser}) )
-                .catch(error => res.status(400).json({ message: error }))
-        )
-        .catch(error => res.status(400).json({ message: error }))
+            currentUser.following.splice(currentUser.following.indexOf(_id), 1),
+            currentUser.save()
+                    .then(res.json({ unfollowed: userToFollow, unfollower: currentUser }))
+            )
+            .catch(error => res.status(400).json({ message: error }))
+    } else {
+        currentUser.following.push(_id)
+
+        currentUser.save()
+            .then(
+                userToFollow.followers.push(follower),
+                userToFollow.save()
+                    .then(res.json({ followed: userToFollow, follower: currentUser }))
+            )
+            .catch(error => res.status(400).json({ message: error }))
+    }
 }
 
 

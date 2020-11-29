@@ -6,7 +6,8 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS,
+    FOLLOW_USER_UPDATE
 } from '../constants/actionTypes'
 
 const initialState = {
@@ -52,6 +53,11 @@ export default (state = initialState, action) => {
                 user: null,
                 isAuthenticated: false,
                 isLoading: false,
+            }
+        case FOLLOW_USER_UPDATE:
+            return {
+                ...state,
+                user :  action.payload.follower ? action.payload.follower : action.payload.unfollower
             }
         default:
             return state

@@ -1,11 +1,33 @@
 import * as api from '../api/api.js'
-import { REGISTER_SUCCESS, FOLLOW_SUCCESS, REGISTER_FAIL } from '../constants/actionTypes'
+import { REGISTER_SUCCESS, GET_USERS, FOLLOW_SUCCESS, UNFOLLOW_SUCCESS, REGISTER_FAIL, FOLLOW_NOTES_UPDATE, FOLLOW_USER_UPDATE } from '../constants/actionTypes'
 import { returnErrors } from './errorActions'
+import { getFollowedNotes } from './noteActions'
+
+
+export const getUsers = () => async (dispatch) => {
+    try {
+        const { data } = await api.getUsers()
+        
+        dispatch({type : GET_USERS, payload : data})
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const followUser = (id, follower) => async (dispatch) => {
     try {
         const { data } = await api.followUser(id, follower)
-        dispatch({type : FOLLOW_SUCCESS, payload : data})
+        console.log(data)
+        if(data.followed){
+            console.log('followed')
+            dispatch({type : FOLLOW_SUCCESS, payload : data}) // userReducer
+        } else if(data.unfollowed){
+            console.log('unfollowed')
+            dispatch({type : UNFOLLOW_SUCCESS, payload : data}) // userReducer
+        }
+        dispatch({type : FOLLOW_NOTES_UPDATE, payload: data}) // notesReducer
+        dispatch({type : FOLLOW_USER_UPDATE, payload: data}) // authReducer
+
     } catch (error) {
         console.log(error)
     }

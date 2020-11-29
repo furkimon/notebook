@@ -10,6 +10,8 @@ import { followUser } from '../../../actions/userActions'
 const Note = ({ isProfile, note, setSelectedId, setSelectedCategory }) => {
     const dispatch = useDispatch()
     const {user} = useSelector(state => state.auth)
+    const {users} = useSelector(state => state.user)
+    var followedUser = !isProfile ? users.find(user => user._id === note.createdBy) : null
 
     const handleEditButton = (e) => {
         setSelectedId(note._id)
@@ -42,6 +44,7 @@ const Note = ({ isProfile, note, setSelectedId, setSelectedCategory }) => {
         setSelectedCategory(item)
         dispatch(filterNotes(user['_id'], item))
     }
+    console.log(note)
     return (
         <div className="note__container">
             <div className="note__wrapper">
@@ -53,10 +56,13 @@ const Note = ({ isProfile, note, setSelectedId, setSelectedCategory }) => {
                     <h5>{note.content}</h5>
                 </div>
                 <div className="note__createdBy">
-                    {user && user['name'] ? user['name'] + ' ' + user['followers'].length + ' ' + user['following'].length : null}
-                    <div className="note__createdBy-follow" onClick={()=> dispatch(followUser(note.createdBy, user['id']))} >
+                    {user && isProfile 
+                    ? user['name'] + ' ' + user['followers'].length + ' ' + user['following'].length 
+                    : followedUser ? followedUser['name'] + ' ' + followedUser['followers'].length + ' ' +followedUser['following'].length : null}
+                    {!isProfile
+                    ?<div className="note__createdBy-follow" onClick={()=> dispatch(followUser(note.createdBy, {follower : user._id}))} >
                         {user && user['following'] ? user['following'].includes(note.createdBy) ? "unf" : "follow" : null}
-                    </div>
+                    </div>:null}
                 </div>
                 
                 <div className="note__button edit" onClick={() => handleEditButton()}>⚙️</div>

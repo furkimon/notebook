@@ -10,12 +10,10 @@ const Form = ({ selectedId, setSelectedId }) => {
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.auth)
     const { notes } = useSelector(state => state.notes)
-    var selectedNote = notes ? notes.map((note) => note._id === selectedId) : null
-    // const selectedNote = useSelector(state => state.notes.notes.find((note) => note._id === selectedId))
+    const selectedNote = notes ? notes.find((note) => note._id === selectedId) : null
     
     const [holdString, setHoldString] = useState({})  // for category
-    const [note, setNote] = useState({ title: null, content: null, category: [],  createdBy: null})
-    const [userID, setUserID] = useState('')
+    const [note, setNote] = useState({ title: '', content: '', category: []})
     const [categoryCount, setCategoryCount] = useState(['herro'])
     
     const CATEGORY_LIMIT = 5
@@ -24,25 +22,20 @@ const Form = ({ selectedId, setSelectedId }) => {
 
     useEffect(() => {
         if (selectedNote) setNote(selectedNote)
+    }, [selectedNote])
 
+    useEffect(()=>{
         if (categoryCount.length === CATEGORY_LIMIT) {
             categoryPlus.style.border = "2px solid red"
             categoryPlus.style.cursor = "not-allowed"
         }
-    }, [selectedNote, categoryCount])
-
-    useEffect(() => {
-        if(user) { 
-            setUserID(user['id'])
-            setNote({ ...note, createdBy: user['id']})
-        }
-    }, [user])
+    },[categoryCount])
 
     const onSubmit = () => {
         if (selectedId) {
             dispatch(updateNote(selectedId, note)) // Object.entries(note)
         } else {
-            dispatch(createNote(note, userID))
+            dispatch(createNote(note, user['_id']))
         }
 
         clearFields()
@@ -50,20 +43,20 @@ const Form = ({ selectedId, setSelectedId }) => {
 
     const clearFields = () => {
         setSelectedId(null)
-        setNote({ title: '', content: '', category: [], createdBy: note.createdBy })
+        setNote({ title: '', content: '', category: [] })
         setHoldString({})
 
         for (let i = 0; i < categoryCount.length; i++) {
             document.getElementById(`input-category${i}`).value = ""
         }
         setCategoryCount(["herro"])
-
     }
 
     const createCategorySection = () => {
         return (categoryCount.map((c, i) => {
             return (
                 <CreateCategorySection
+                    selectedNote={selectedNote}
                     note={note}
                     setNote={setNote}
                     holdString={holdString}
@@ -77,6 +70,7 @@ const Form = ({ selectedId, setSelectedId }) => {
     const handleCategoryPlus = (i) => {
         setCategoryCount([...categoryCount, 'herro'])
     }
+
 
     return (
         <div className="form__container" id="form-container">
@@ -95,7 +89,7 @@ const Form = ({ selectedId, setSelectedId }) => {
                         <div className="categories">
                             {createCategorySection()}
                         </div>
-                        <div className="category__plus form__button" id="category-plus" onClick={() => categoryCount.length < 5 ? handleCategoryPlus(categoryCount.length) : null}>{categoryCount.length === 5 ? 'maximum' : '+'}</div>
+                        <div className="category__plus form__button" id="category-plus" onClick={() => categoryCount.length < 5 ? handleCategoryPlus(categoryCount.length) : null}>{categoryCount.length === CATEGORY_LIMIT ? 'maximum' : '+'}</div>
                     </div>
                     <div className="form__row button">
                         <div className="form__button" onClick={() => onSubmit()}>save</div>

@@ -39,19 +39,21 @@ const AuthForm = ({ holdUser, setHoldUser, isSignup }) => {
             <div className="auth__wrapper">
                 <h3 className="auth__title">Sign {isSignup ? ' Up' : ' In'}</h3>
                 {(isSignup && id === REGISTER_FAIL) || (!isSignup && id === LOGIN_FAIL) ? <div className="auth__row error">{message}</div>:  null}
+                <form>
                 {isSignup
                     ? <div className="auth__row">
                         <label>name</label>
-                        <input value={holdUser ? holdUser.name : null} type="name" required onChange={(e) => setHoldUser({ ...holdUser, name: e.target.value })} />
+                        <input value={holdUser ? holdUser.name : null} type="name" required onChange={(e) => setHoldUser({ ...holdUser, name: e.target.value })} autocomplete="off"/>
                     </div> : null
                 }<div className="auth__row">
                     <label>email</label>
-                    <input value={holdUser ? holdUser.email : null} type="email" required onChange={(e) => setHoldUser({ ...holdUser, email: e.target.value })} />
+                    <input value={holdUser ? holdUser.email : null} type="email" required onChange={(e) => setHoldUser({ ...holdUser, email: e.target.value })} autocomplete="off"/>
                 </div>
                 <div className="auth__row">
                     <label>password</label>
-                    <input value={holdUser ? holdUser.password : null} type="password" required onChange={(e) => setHoldUser({ ...holdUser, password: e.target.value })} />
+                    <input value={holdUser ? holdUser.password : null} type="password" required onChange={(e) => setHoldUser({ ...holdUser, password: e.target.value })} autocomplete="current-password" />
                 </div>
+                </form>
                 <div
                     className="auth__btn"
                     onClick={() => onSubmit(holdUser)}>OK

@@ -3,7 +3,7 @@ import './Form.css'
 import { useSelector } from 'react-redux'
 
 
-const CreateCategorySection = ({ i, note, setNote, holdString, setHoldString }) => {
+const CreateCategorySection = ({ i, note, setNote, holdString, setHoldString, selectedNote}) => {
 
     const {notes} = useSelector(state => state.notes)
 
@@ -22,12 +22,16 @@ const CreateCategorySection = ({ i, note, setNote, holdString, setHoldString }) 
         }
     }, [holdString])
 
+    useEffect(()=>{
+        if(selectedNote) setHoldString(selectedNote.category)
+    },[selectedNote])
 
-    const addNewItem = () => { setNote({...note, category : Object.values(holdString) }) }
+
+    const addNewItem = () => setNote({...note, category : Object.values(holdString) })
 
     const getCategories = () => {
         var allCategories = ['choose category']
-        if(notes) notes.map((note) => note.category.map(c => !allCategories.includes(c) ? allCategories.push(c) : null))
+        if(notes) notes.forEach((note) => note.category.forEach(c => !allCategories.includes(c) ? allCategories.push(c) : null))
         return allCategories
     }
 

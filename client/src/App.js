@@ -3,13 +3,15 @@ import './App.css';
 import { Header, Home, Profile, Registration } from './components'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { loadUser } from './actions/authActions'
-import { getNotesForUser, getFollowedNotes } from './actions/noteActions'
 import { useDispatch, useSelector } from 'react-redux'
+
+import { loadUser } from './actions/authActions'
+import { getNotes, getNotesForUser, getFollowedNotes } from './actions/noteActions'
+import { getUsers } from './actions/userActions'
 
 const App = () => {
   const dispatch = useDispatch()
-  const { user, token, isAuthenticated } = useSelector(state => state.auth)
+  const { user, token } = useSelector(state => state.auth)
 
   useEffect(() => {
     if (token) {
@@ -19,6 +21,8 @@ const App = () => {
 
   useEffect(()=>{
     if(token && user){
+      dispatch(getUsers())
+      dispatch(getNotes())
       dispatch(getNotesForUser(user['_id']))
       dispatch(getFollowedNotes(user['_id']))
     }

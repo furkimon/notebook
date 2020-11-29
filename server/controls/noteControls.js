@@ -56,8 +56,9 @@ export const filterNotes = async (req, res) => {
 
 export const createNote = async (req, res) => {
     try {
-        const {title, content, category, createdBy} = req.body
-        const holdNote = {title, content, category, createdBy}
+        const {id: _id} = req.params
+        const {title, content, category} = req.body
+        const holdNote = {title, content, category, createdBy : _id}
         const newNote = new NoteModel(holdNote)
 
         await newNote.save()

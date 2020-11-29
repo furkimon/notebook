@@ -1,5 +1,5 @@
 import * as api from '../api/api.js'
-import { GETALL, FOLLOWED_NOTES, CREATE, UPDATE, DELETE, FILTER, CLEAN_NOTES,} from '../constants/actionTypes'
+import { GETALL, FOLLOWED_NOTES, CREATE, UPDATE, DELETE, FILTER, CLEAN_NOTES, PERSONAL_NOTES} from '../constants/actionTypes'
 import { tokenConfig } from './authActions.js'
 
 export const getNotes = () => async (dispatch, getState) => {
@@ -14,7 +14,7 @@ export const getNotes = () => async (dispatch, getState) => {
 export const getNotesForUser = (id) => async (dispatch, getState) => {
     try {
         const { data } = await api.getNotesForUser(tokenConfig(getState), id)
-        dispatch({ type: GETALL, payload: data })
+        dispatch({ type: PERSONAL_NOTES, payload: data })
     } catch (error) {
         console.log(error)
     }
@@ -41,16 +41,16 @@ export const filterNotes = (id, item) => async (dispatch, getState) => {
 export const createNote = (note, id) => async (dispatch, getState) => {
     try {
         const { data } = await api.createNotes(note, id, tokenConfig(getState))
-        console.log(data)
         dispatch({ type: CREATE, payload: data })
     } catch (error) {
         console.log(error)
     }
 }
 
-export const updateNote = (id, post) => async (dispatch, getState) => {
+export const updateNote = (id, note) => async (dispatch, getState) => {
     try {
-        const { data } = await api.updateNotes(id, post, tokenConfig(getState))
+        const { data } = await api.updateNotes(id, note, tokenConfig(getState))
+        console.log(data)
         dispatch({ type: UPDATE, payload: data })
     } catch (error) {
         console.log(error)

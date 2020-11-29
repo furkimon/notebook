@@ -6,7 +6,7 @@ import { Notes, Form } from '../'
 
 
 const Profile = () => {
-    const {notes} = useSelector(state => state.notes)
+    const {personalNotes} = useSelector(state => state.notes)
     const [selectedId, setSelectedId] = useState(null)
     const isProfile = true
 
@@ -15,7 +15,7 @@ const Profile = () => {
             <div className="profile__wrapper">
                 <Notes
                     isProfile={isProfile}
-                    notes={notes}
+                    notes={personalNotes}
                     selectedId={selectedId}
                     setSelectedId={setSelectedId}
                 />

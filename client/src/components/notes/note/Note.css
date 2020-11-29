@@ -20,6 +20,8 @@
 
 .note__createdBy{
     position: absolute;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     left: 0;
     background-color: var(--color1);
@@ -32,6 +34,8 @@
     z-index: 3;
     position: relative;
     display: flex;
+    width: max-content;
+    align-self: center;
     padding: 5px;
     background-color: var(--color5);
     color: var(--color4);
